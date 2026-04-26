@@ -268,15 +268,19 @@
   }
 
   function buildInstallCommand(values) {
-    var lines = [
-      "JIRA_URL=" + shellQuote(values.url) + " \\",
-      "JIRA_MODE=" + shellQuote(values.mode) + " \\",
+    // ⚠️ Les variables doivent être attachées au *bash* à droite du pipe,
+    //    pas au *curl* à gauche : sinon install.sh ne les voit pas.
+    var envParts = [
+      "JIRA_URL=" + shellQuote(values.url),
+      "JIRA_MODE=" + shellQuote(values.mode),
     ];
     if (values.mode === "api" && values.email) {
-      lines.push("JIRA_EMAIL=" + shellQuote(values.email) + " \\");
+      envParts.push("JIRA_EMAIL=" + shellQuote(values.email));
     }
-    lines.push("curl -fsSL " + INSTALL_URL + " | bash");
-    return lines.join("\n");
+    return [
+      "curl -fsSL " + INSTALL_URL + " \\",
+      "  | " + envParts.join(" ") + " bash",
+    ].join("\n");
   }
 
   function buildConfigYaml(values) {

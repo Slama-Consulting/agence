@@ -233,21 +233,50 @@
         <!-- Onglet 3 : config client MCP -->
         <div class="tab-panel" data-config-panel="mcp" hidden>
           <p class="agent-p">
-            Choisissez votre client MCP, puis collez la configuration
-            correspondante.
+            <strong>Bonne nouvelle :</strong> <code>install.sh</code>
+            enregistre déjà BugHound comme serveur MCP dans Claude Code,
+            VS Code (Copilot Chat) et Cursor — vous n'avez rien à coller.
+            Pour ré-enregistrer manuellement (autre poste, ré-installation,
+            override) :
           </p>
+          <div class="code-card">
+            <pre><code id="cfg-mcp-install">bughound mcp-install</code></pre>
+            <button class="copy-btn" data-copy-target="cfg-mcp-install" aria-label="Copier la commande">📋 Copier</button>
+          </div>
+          <p class="agent-p agent-muted">
+            Options utiles :
+            <code>--client claude|vscode-copilot|cursor</code> pour cibler
+            un seul client, <code>--print-only</code> pour voir le JSON
+            sans rien écrire, <code>--yes --overwrite</code> pour un
+            run idempotent (CI / scripts).
+          </p>
+
+          <p class="agent-p">
+            Si vous préférez éditer les fichiers à la main, voici le
+            JSON attendu pour chaque client. Remplacez
+            <code>/usr/local/bin/bughound</code> par le chemin absolu
+            renvoyé par <code>which bughound</code> sur votre poste —
+            VS Code lance les serveurs MCP avec un PATH minimal, le
+            chemin absolu est obligatoire.
+          </p>
+
           <div class="tabs tabs-mcp">
             <button class="tab tab-active" data-mcp-tab="claude">Claude Code</button>
-            <button class="tab" data-mcp-tab="copilot">Copilot</button>
+            <button class="tab" data-mcp-tab="copilot">VS Code / Copilot</button>
             <button class="tab" data-mcp-tab="cursor">Cursor</button>
           </div>
 
           <div class="tab-panel" data-mcp-panel="claude">
+            <p class="agent-p agent-muted">
+              Fichier : <code>~/.claude.json</code> (clé
+              <code>mcpServers</code>).
+            </p>
             <div class="code-card">
               <pre><code id="cfg-claude">{
   "mcpServers": {
-    "sherlekhomes": {
-      "command": "bughound-mcp"
+    "bughound": {
+      "command": "/usr/local/bin/bughound",
+      "args": ["mcp-serve"]
     }
   }
 }</code></pre>
@@ -256,12 +285,18 @@
           </div>
 
           <div class="tab-panel" data-mcp-panel="copilot" hidden>
+            <p class="agent-p agent-muted">
+              Fichier : <code>~/.config/Code/User/mcp.json</code>
+              (clé <code>servers</code>, format VS Code natif depuis 2025).
+              Relancer VS Code après modification.
+            </p>
             <div class="code-card">
               <pre><code id="cfg-copilot">{
-  "mcp.servers": {
-    "sherlekhomes": {
+  "servers": {
+    "bughound": {
       "type": "stdio",
-      "command": "bughound-mcp"
+      "command": "/usr/local/bin/bughound",
+      "args": ["mcp-serve"]
     }
   }
 }</code></pre>
@@ -270,12 +305,16 @@
           </div>
 
           <div class="tab-panel" data-mcp-panel="cursor" hidden>
+            <p class="agent-p agent-muted">
+              Fichier : <code>~/.cursor/mcp.json</code> (clé
+              <code>mcpServers</code>).
+            </p>
             <div class="code-card">
               <pre><code id="cfg-cursor">{
   "mcpServers": {
-    "sherlekhomes": {
-      "command": "bughound-mcp",
-      "args": []
+    "bughound": {
+      "command": "/usr/local/bin/bughound",
+      "args": ["mcp-serve"]
     }
   }
 }</code></pre>
@@ -285,21 +324,85 @@
         </div>
 
         <div class="next-steps">
-          <h3 class="next-title">Après installation</h3>
+          <h3 class="next-title">Vos secrets — <code>~/.bughound/.env</code></h3>
+          <p class="agent-p">
+            <code>install.sh</code> crée
+            <code>~/.bughound/.env</code> avec les bonnes lignes
+            commentées. Décommentez et collez vos vrais tokens — les
+            commentaires <code>#</code> en tête de ligne sont
+            obligatoires tant que la valeur n'est pas remplie.
+          </p>
+          <div class="code-card">
+            <pre><code id="env-template"># Token Jira (si JIRA_MODE=api). Generation : Profil Atlassian
+# → Security → API tokens. Pour Server/DC en mode browser, pas
+# besoin : SherleKhomes utilise votre session Chrome.
+# JIRA_API_TOKEN=
+
+# Artifactory (téléchargement des artefacts liés au ticket).
+# Token : interface Artifactory → User Profile → Generate API Key.
+# ARTIFACTORY_USER=jdoe@maboite.com
+# ARTIFACTORY_TOKEN=
+
+# Clé du LLM (analyse). Anthropic, OpenAI, ou compatible.
+# LLM_API_KEY=
+</code></pre>
+            <button class="copy-btn" data-copy-target="env-template" aria-label="Copier le template">📋 Copier</button>
+          </div>
+          <p class="agent-p agent-muted">
+            Le fichier appartient uniquement à votre utilisateur
+            (<code>chmod 600</code> recommandé). N'envoyez jamais ce
+            fichier dans un dépôt git ni dans un canal Slack.
+          </p>
+        </div>
+
+        <div class="next-steps">
+          <h3 class="next-title">Premiers pas</h3>
           <ol class="next-list">
             <li>
-              Ouvrez <code>~/.bughound/.env</code> et renseignez votre
-              <strong>token Jira</strong> (et Artifactory si nécessaire).
+              Vérifiez vos secrets dans <code>~/.bughound/.env</code>
+              (bloc ci-dessus).
             </li>
             <li>
               Lancez votre première enquête :
               <code>bughound analyze MON-TICKET-42</code>
             </li>
             <li>
-              Ou configurez votre client MCP (onglet ③) pour utiliser
-              SherleKhomes depuis Claude Code, Copilot ou Cursor.
+              Relancez votre IDE (VS Code / Cursor / Claude Code) et
+              parlez à l'agent <code>bughound</code> depuis le chat MCP.
             </li>
           </ol>
+        </div>
+
+        <div class="next-steps">
+          <h3 class="next-title">⚠️ Piège shell — variables côté pipe</h3>
+          <p class="agent-p">
+            Si vous tapez la commande à la main, <strong>les variables
+            <code>JIRA_URL</code> / <code>JIRA_MODE</code> doivent être
+            attachées au <code>bash</code></strong>, pas au
+            <code>curl</code>. Sinon
+            <code>install.sh</code> ne les voit pas et
+            <code>~/.bughound/.env</code> n'est pas pré-rempli.
+          </p>
+          <div class="code-card">
+            <pre><code id="env-shell-trap"># ❌ FAUX — variables attachées à curl, perdues après le pipe
+JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser' \
+  curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash
+
+# ✅ CORRECT — variables attachées à bash, lues par install.sh
+curl -fsSL https://slama-consulting.github.io/agence/install.sh \
+  | JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser' bash
+
+# ✅ ÉQUIVALENT — export d'abord
+export JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser'
+curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></pre>
+            <button class="copy-btn" data-copy-target="env-shell-trap" aria-label="Copier l'astuce">📋 Copier</button>
+          </div>
+          <p class="agent-p agent-muted">
+            Depuis la version 1.0.1 d'<code>install.sh</code>, si vous
+            êtes sur un terminal interactif, le script lance
+            <code>bughound setup</code> et vous demande directement les
+            valeurs — le piège est neutralisé sur votre poste.
+          </p>
         </div>
       </div>
     </section>

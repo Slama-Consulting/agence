@@ -9,9 +9,12 @@
 #
 # ou, avec pré-remplissage de la config Jira (généré par le formulaire web) :
 #
-#   JIRA_URL='https://jira.maboite.com' \
-#   JIRA_MODE='browser' \
-#   curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash
+#   curl -fsSL https://slama-consulting.github.io/agence/install.sh \
+#     | JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser' bash
+#
+# ⚠️  Mettre 'JIRA_URL=… curl … | bash' attache les variables à *curl*,
+#     pas à *bash* : install.sh ne les verrait pas. Toujours placer les
+#     variables côté droit du pipe (ou les exporter avant).
 #
 # Variables d'environnement lues :
 #   - JIRA_URL    (optionnel) → pré-remplit ~/.bughound/config.yaml
@@ -211,6 +214,24 @@ else
 fi
 
 # ----- configuration --------------------------------------------------------
+# Détection du TTY. Quand le script est lancé via `curl … | bash`, stdin du
+# bash pointe sur le pipe (pas sur un TTY), mais l'utilisateur a quand même
+# un terminal disponible sur /dev/tty. On bascule stdin sur /dev/tty pour
+# pouvoir poser des questions interactivement, même sous curl-pipe.
+HAS_TTY=0
+if [ -e /dev/tty ] && [ -r /dev/tty ] && [ -w /dev/tty ]; then
+    HAS_TTY=1
+fi
+
+run_setup_interactive() {
+    # Lancer 'bughound setup' avec stdin rattaché au TTY de l'utilisateur.
+    if (( HAS_TTY )); then
+        bughound setup < /dev/tty
+    else
+        bughound setup
+    fi
+}
+
 if [[ -n "${JIRA_URL}" && -n "${JIRA_MODE}" ]]; then
     log_info "Configuration automatique : JIRA_URL=${JIRA_URL} (${JIRA_MODE})"
 
@@ -231,9 +252,31 @@ en lançant 'bughound setup' plus tard."
         log_warn "bughound non trouvé dans le PATH : configurez ensuite \
 manuellement avec 'bughound setup'."
     fi
+elif (( HAS_TTY )) && command -v bughound >/dev/null 2>&1; then
+    log_info "Pas de JIRA_URL/JIRA_MODE en env → setup interactif."
+    log_info "Astuce : pour pré-remplir, exporter avant le pipe :"
+    log_info "  curl …/install.sh | JIRA_URL='…' JIRA_MODE='browser' bash"
+    if ! run_setup_interactive; then
+        log_warn "bughound setup interrompu : relancez 'bughound setup' \
+quand vous voudrez configurer."
+    fi
 else
-    log_warn "Pas de JIRA_URL/JIRA_MODE fournis. \
-Configurez maintenant avec : bughound setup"
+    log_warn "Pas de JIRA_URL/JIRA_MODE fournis et pas de TTY détecté."
+    log_warn "Piège fréquent : 'JIRA_URL=… JIRA_MODE=… curl … | bash' attache \
+les variables à curl, pas à bash."
+    log_warn "Forme correcte : 'curl …/install.sh | JIRA_URL=… JIRA_MODE=… bash'"
+    log_warn "Configurez maintenant avec : bughound setup"
+fi
+
+# ----- enregistrement MCP ---------------------------------------------------
+# Idempotent grâce au merge prudent : préserve les autres serveurs MCP de
+# l'utilisateur, et ne réécrit l'entrée 'bughound' que si elle change.
+if command -v bughound >/dev/null 2>&1; then
+    log_info "Enregistrement de BugHound comme serveur MCP (Claude / VS Code / Cursor)."
+    if ! bughound mcp-install --yes --overwrite >&2; then
+        log_warn "bughound mcp-install a échoué : enregistrez à la main \
+en relançant 'bughound mcp-install'."
+    fi
 fi
 
 # ----- récapitulatif ---------------------------------------------------------
@@ -243,12 +286,14 @@ cat <<'EOF'
   ✓ SherleKhomes est installé.
 
   Étapes suivantes :
-    1. Renseignez vos secrets dans  ~/.bughound/.env
+    1. Vérifiez/renseignez vos secrets dans  ~/.bughound/.env
+       (JIRA_API_TOKEN, ARTIFACTORY_USER/TOKEN, LLM_API_KEY).
     2. Lancez votre première enquête :
          bughound analyze MON-TICKET-42
-    3. Ou intégrez l'agent à votre client MCP (Claude Code,
-       Copilot, Cursor) : voir la page de l'agent sur L'Agence.
+    3. Dans votre IDE (VS Code, Cursor) ou Claude Code, le serveur
+       MCP 'bughound' est déjà enregistré — relancez l'IDE et
+       appelez-le depuis le chat.
 
-  Documentation : voir la galerie des agents.
+  Documentation : voir la galerie des agents sur L'Agence.
 ────────────────────────────────────────────────────────────────────
 EOF
