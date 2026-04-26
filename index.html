@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L'Agence — Une équipe d'agents IA au service de vos enquêtes</title>
+  <meta name="description" content="Galerie d'agents MCP spécialisés. Installation en une commande. Compatible Claude Code, Copilot et Cursor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+</head>
+<body class="theme-noir-or">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="seal" aria-hidden="true">🕵</div>
+
+  <header class="topbar">
+    <a class="brand" href="./">
+      <span class="brand-mark">🕵</span>
+      <span class="brand-name">L'<em>Agence</em></span>
+    </a>
+    <nav class="nav">
+      <a href="#galerie">Galerie</a>
+      <a href="#comment">Comment ça marche</a>
+      <a href="https://github.com/Slama-Consulting/BugHound" class="nav-muted" rel="noopener" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-eyebrow">— Dossier d'introduction —</p>
+      <h1 class="hero-title">
+        Une équipe d'agents IA<br />
+        au service de vos <em>enquêtes</em>.
+      </h1>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-sub">
+        Chaque agent a une mission. Recrutez celui qu'il vous faut.<br />
+        Installation en une seule commande.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#galerie">Voir la galerie ↓</a>
+        <a class="btn btn-ghost" href="#comment">Comment ça marche</a>
+      </div>
+    </section>
+
+    <section id="galerie" class="gallery">
+      <header class="section-head">
+        <p class="section-eyebrow">— Casting actif —</p>
+        <h2 class="section-title">La galerie d'agents</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+      </header>
+
+      <div class="cards">
+        <!-- Carte SherleKhomes -->
+        <article class="card card-active">
+          <div class="card-badge">Agent 01</div>
+
+          <div class="avatar" data-agent="sherlekhomes">
+            <!-- Halo doux qui pulse -->
+            <span class="avatar-halo-pulse" aria-hidden="true"></span>
+            <!-- Anneau doré rotatif derrière la photo -->
+            <span class="avatar-halo-ring" aria-hidden="true"></span>
+            <!-- Médaillon photo (Design 01 : Noir & Or) -->
+            <div class="avatar-photo" role="img" aria-label="SherleKhomes — analyste de tickets"></div>
+            <!-- Particules dorées flottantes -->
+            <div class="avatar-particles" aria-hidden="true">
+              <span class="p1"></span>
+              <span class="p2"></span>
+              <span class="p3"></span>
+              <span class="p4"></span>
+            </div>
+            <!-- Conteneur Lottie (vide tant que .json absent) -->
+            <div class="avatar-lottie" data-lottie-src="assets/sherlekhomes.json" hidden></div>
+          </div>
+
+          <h3 class="card-name">SherleKhomes</h3>
+          <p class="card-role">Analyste de tickets Jira</p>
+          <p class="card-desc">
+            Lit, recoupe et diagnostique chaque ticket en assemblant
+            description, logs, vidéos et code. Restitue un rapport
+            d'enquête complet.
+          </p>
+
+          <ul class="card-skills">
+            <li>Cause racine</li>
+            <li>Reproduction</li>
+            <li>Fix proposé</li>
+          </ul>
+
+          <a href="agents/sherlekhomes/" class="btn btn-primary card-cta">
+            Recruter cet agent →
+          </a>
+        </article>
+
+        <!-- Carte fantôme : WaliScribe (à venir) -->
+        <article class="card card-ghost" aria-disabled="true">
+          <div class="card-badge">Bientôt</div>
+          <div class="avatar avatar-ghost" data-agent="waliscribe">
+            <div class="avatar-photo" role="img" aria-label="WaliScribe — créateur de tickets Jira"></div>
+          </div>
+          <h3 class="card-name">WaliScribe</h3>
+          <p class="card-role">Greffier de l'agence</p>
+          <p class="card-desc">
+            Vous lui donnez un sujet (bug ou évolution) plus quelques
+            logs et/ou vidéos : il rédige et crée le ticket Jira
+            complet à votre place.
+          </p>
+          <span class="card-soon">Stay tuned</span>
+        </article>
+
+        <!-- Carte fantôme : WalidEx (à venir) -->
+        <article class="card card-ghost" aria-disabled="true">
+          <div class="card-badge">Bientôt</div>
+          <div class="avatar avatar-ghost" data-agent="walidex">
+            <div class="avatar-photo" role="img" aria-label="WalidEx — rapport croisé sur les tickets"></div>
+          </div>
+          <h3 class="card-name">WalidEx</h3>
+          <p class="card-role">Archiviste enquêteur</p>
+          <p class="card-desc">
+            Croise vos tickets pour repérer les sujets similaires,
+            les doublons, les dossiers non assignés et bien d'autres
+            angles morts du backlog.
+          </p>
+          <span class="card-soon">Stay tuned</span>
+        </article>
+
+        <!-- Carte fantôme : WaliPR (à venir) -->
+        <article class="card card-ghost" aria-disabled="true">
+          <div class="card-badge">Bientôt</div>
+          <div class="avatar avatar-ghost" data-agent="walipr">
+            <div class="avatar-photo" role="img" aria-label="WaliPR — review de code"></div>
+          </div>
+          <h3 class="card-name">WaliPR</h3>
+          <p class="card-role">Inspecteur de pull requests</p>
+          <p class="card-desc">
+            Relit vos pull requests, traque les régressions, les
+            risques de sécurité et propose des remarques prêtes
+            à coller en commentaires.
+          </p>
+          <span class="card-soon">Stay tuned</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="comment" class="howto">
+      <header class="section-head">
+        <p class="section-eyebrow">— Procédure —</p>
+        <h2 class="section-title">Comment ça marche</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+      </header>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Choisir un agent</h3>
+          <p class="step-desc">
+            Parcourez la galerie et cliquez sur « Recruter » pour
+            ouvrir le dossier de l'agent.
+          </p>
+        </li>
+        <li class="step">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Installer</h3>
+          <p class="step-desc">
+            Une seule commande shell. La distribution est servie
+            depuis GitHub Pages, le code source reste privé.
+          </p>
+        </li>
+        <li class="step">
+          <div class="step-num">03</div>
+          <h3 class="step-title">Configurer</h3>
+          <p class="step-desc">
+            Ajoutez l'agent à votre client MCP : Claude Code,
+            Copilot ou Cursor. Et l'enquête peut commencer.
+          </p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule" aria-hidden="true"></div>
+    <p class="footer-line">
+      © Slama Consulting · Repo privé GitHub · v1.0.0
+    </p>
+    <p class="footer-line footer-muted">
+      Built with care · Casablanca · 2026
+    </p>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
