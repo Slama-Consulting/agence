@@ -25,8 +25,10 @@
 set -euo pipefail
 
 # ----- helpers ---------------------------------------------------------------
-log_info()  { printf '\033[36m[*]\033[0m %s\n' "$*"; }
-log_ok()    { printf '\033[32m[✓]\033[0m %s\n' "$*"; }
+# Tous les logs vont sur stderr pour ne pas polluer stdout (utilisé par les
+# fonctions qui retournent une valeur via $(...) ).
+log_info()  { printf '\033[36m[*]\033[0m %s\n' "$*" >&2; }
+log_ok()    { printf '\033[32m[✓]\033[0m %s\n' "$*" >&2; }
 log_warn()  { printf '\033[33m[!]\033[0m %s\n' "$*" >&2; }
 log_error() { printf '\033[31m[✗]\033[0m %s\n' "$*" >&2; }
 
@@ -35,6 +37,23 @@ die() { log_error "$*"; exit 1; }
 require_cmd() {
     command -v "$1" >/dev/null 2>&1 \
         || die "Commande requise non trouvée : $1"
+}
+
+# Renvoie le répertoire 'scripts' du scheme user de Python (où pipx pose ses
+# binaires). Robuste aux schemes Debian custom (posix_local, etc.) en
+# essayant plusieurs schemes connus puis en repliant sur ~/.local/bin.
+user_scripts_dir() {
+    python3 - <<'PY' 2>/dev/null
+import os, sys, sysconfig
+for scheme in ("posix_user", "nt_user", "osx_framework_user"):
+    try:
+        p = sysconfig.get_path("scripts", scheme)
+        if p:
+            print(p); sys.exit(0)
+    except (KeyError, Exception):
+        pass
+print(os.path.expanduser("~/.local/bin"))
+PY
 }
 
 # ----- configuration ---------------------------------------------------------
@@ -53,7 +72,11 @@ else
 fi
 
 TMP_DIR="$(mktemp -d -t bughound-install.XXXXXX)"
-WHEEL_PATH="${TMP_DIR}/bughound.whl"
+# pipx valide le nom de fichier selon PEP 491 :
+# {distribution}-{version}-{python tag}-{abi tag}-{platform tag}.whl
+# On conserve donc le nom d'origine de l'URL.
+WHEEL_FILENAME="$(basename "${WHEEL_URL}")"
+WHEEL_PATH="${TMP_DIR}/${WHEEL_FILENAME}"
 
 cleanup() { rm -rf "${TMP_DIR}"; }
 trap cleanup EXIT
@@ -88,28 +111,94 @@ Le serveur a peut-être renvoyé une page d'erreur."
 fi
 log_ok "Wheel téléchargée (${WHEEL_SIZE} octets)."
 
-# ----- installation ----------------------------------------------------------
-INSTALLER=""
-if command -v pipx >/dev/null 2>&1; then
-    INSTALLER="pipx"
-elif python3 -m pipx --version >/dev/null 2>&1; then
-    INSTALLER="python3 -m pipx"
-else
-    INSTALLER="python3 -m pip --user"
-    log_warn "pipx introuvable — repli sur 'pip --user'. Pour une isolation \
-propre, installez pipx (https://pipx.pypa.io)."
+# pipx exige un nom de wheel conforme PEP 491 : `latest` n'est pas une
+# version PEP 440 valide. On lit le vrai nom canonique depuis le
+# dist-info de la wheel et on la renomme avant de la passer à pipx.
+CANONICAL_WHEEL_NAME="$(WHEEL_FILE="${WHEEL_PATH}" python3 - <<'PY' 2>/dev/null
+import os, sys, zipfile
+path = os.environ["WHEEL_FILE"]
+try:
+    with zipfile.ZipFile(path) as z:
+        name = version = None
+        for n in z.namelist():
+            if n.endswith(".dist-info/METADATA"):
+                with z.open(n) as f:
+                    for raw in f:
+                        line = raw.decode("utf-8", errors="replace").rstrip()
+                        if line.startswith("Name: "):
+                            name = line[len("Name: "):].strip().replace("-", "_")
+                        elif line.startswith("Version: "):
+                            version = line[len("Version: "):].strip()
+                        if name and version:
+                            break
+                break
+        if name and version:
+            print(f"{name}-{version}-py3-none-any.whl")
+            sys.exit(0)
+except Exception:
+    pass
+sys.exit(1)
+PY
+)"
+if [ -n "${CANONICAL_WHEEL_NAME}" ] \
+   && [ "${CANONICAL_WHEEL_NAME}" != "${WHEEL_FILENAME}" ]; then
+    CANONICAL_WHEEL_PATH="${TMP_DIR}/${CANONICAL_WHEEL_NAME}"
+    mv "${WHEEL_PATH}" "${CANONICAL_WHEEL_PATH}"
+    WHEEL_PATH="${CANONICAL_WHEEL_PATH}"
+    log_info "Wheel renommée : ${CANONICAL_WHEEL_NAME}"
 fi
 
+# ----- installation ----------------------------------------------------------
+# Stratégie : on installe TOUJOURS via pipx, qui isole BugHound dans son
+# propre venv et évite les conflits avec les paquets système (PEP 668). Si
+# pipx n'est pas dispo, on l'installe via 'pip install --user pipx' (avec
+# --break-system-packages si l'environnement Python est externally-managed).
+
+ensure_pipx() {
+    if command -v pipx >/dev/null 2>&1; then
+        printf 'pipx'
+        return
+    fi
+    if python3 -m pipx --version >/dev/null 2>&1; then
+        printf 'python3 -m pipx'
+        return
+    fi
+    log_info "pipx absent — installation via pip --user."
+    PIP_FLAGS=("install" "--user" "--upgrade")
+    if python3 -c "import sysconfig,os; p=sysconfig.get_paths()['stdlib']+'/EXTERNALLY-MANAGED'; raise SystemExit(0 if os.path.exists(p) else 1)" 2>/dev/null; then
+        log_warn "Python externally-managed (PEP 668) → --break-system-packages pour pipx."
+        PIP_FLAGS+=("--break-system-packages")
+    fi
+    if ! python3 -m pip "${PIP_FLAGS[@]}" pipx >&2; then
+        die "Impossible d'installer pipx. Installez-le manuellement \
+(https://pipx.pypa.io) puis relancez ce script."
+    fi
+    USER_BIN="$(user_scripts_dir)"
+    if [ -n "${USER_BIN}" ] && [ -d "${USER_BIN}" ]; then
+        export PATH="${USER_BIN}:${PATH}"
+    fi
+    if command -v pipx >/dev/null 2>&1; then
+        log_ok "pipx installé dans ${USER_BIN}."
+        printf 'pipx'
+        return
+    fi
+    if python3 -m pipx --version >/dev/null 2>&1; then
+        log_ok "pipx installé (via 'python3 -m pipx')."
+        printf 'python3 -m pipx'
+        return
+    fi
+    die "pipx installé mais introuvable. Relancez votre shell puis ré-exécutez."
+}
+
+INSTALLER="$(ensure_pipx)"
 log_info "Installation via : ${INSTALLER}"
-case "${INSTALLER}" in
-    *pipx*)
-        # Force la réinstallation pour gérer les upgrades depuis le même URL.
-        ${INSTALLER} install --force "${WHEEL_PATH}"
-        ;;
-    *)
-        ${INSTALLER} install --upgrade "${WHEEL_PATH}"
-        ;;
-esac
+# --force pour gérer les upgrades depuis le même URL "latest".
+${INSTALLER} install --force "${WHEEL_PATH}"
+${INSTALLER} ensurepath >/dev/null 2>&1 || true
+USER_BIN="$(user_scripts_dir)"
+if [ -n "${USER_BIN}" ] && [ -d "${USER_BIN}" ]; then
+    export PATH="${USER_BIN}:${PATH}"
+fi
 log_ok "BugHound installé."
 
 # ----- vérification rapide ---------------------------------------------------
