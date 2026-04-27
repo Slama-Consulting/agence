@@ -20,6 +20,13 @@
 #   - JIRA_URL    (optionnel) → pré-remplit ~/.bughound/config.yaml
 #   - JIRA_MODE   (optionnel) → 'browser' (Server/DC + SSO) | 'api' (Cloud)
 #   - JIRA_EMAIL  (optionnel) → email Atlassian (mode api uniquement)
+#   - BUGHOUND_AGENTS (optionnel) → liste des agents MCP à activer,
+#                                   séparés par des virgules
+#                                   (ex. 'sherlekhomes' ou 'walipr' ou
+#                                   'sherlekhomes,walipr'). Par défaut :
+#                                   tous les agents disponibles.
+#                                   Lue par 'bughound setup' et
+#                                   'bughound mcp-install' via Typer.
 #   - BUGHOUND_BASE_URL (optionnel) → racine GitHub Pages.
 #                                     Défaut : https://slama-consulting.github.io/agence
 #   - BUGHOUND_VERSION  (optionnel) → version cible (par défaut : "latest").
@@ -66,6 +73,7 @@ BUGHOUND_VERSION="${BUGHOUND_VERSION:-latest}"
 JIRA_URL="${JIRA_URL:-}"
 JIRA_MODE="${JIRA_MODE:-}"
 JIRA_EMAIL="${JIRA_EMAIL:-}"
+BUGHOUND_AGENTS="${BUGHOUND_AGENTS:-}"
 
 WHEEL_URL=""
 if [[ "${BUGHOUND_VERSION}" == "latest" ]]; then
@@ -221,6 +229,15 @@ fi
 HAS_TTY=0
 if [ -e /dev/tty ] && [ -r /dev/tty ] && [ -w /dev/tty ]; then
     HAS_TTY=1
+fi
+
+# Propage le scope d'agents (BUGHOUND_AGENTS) à 'bughound setup' et
+# 'bughound mcp-install' via env (Typer le lit automatiquement). Permet
+# au curl|bash des pages SherleKhomes / WaliPR de n'installer QUE
+# l'agent recruté, sans toucher aux autres.
+if [[ -n "${BUGHOUND_AGENTS}" ]]; then
+    export BUGHOUND_AGENTS
+    log_info "Scope agents : ${BUGHOUND_AGENTS}"
 fi
 
 run_setup_interactive() {

@@ -270,6 +270,9 @@
   function buildInstallCommand(values) {
     // ⚠️ Les variables doivent être attachées au *bash* à droite du pipe,
     //    pas au *curl* à gauche : sinon install.sh ne les voit pas.
+    // BUGHOUND_AGENTS=sherlekhomes : le formulaire vit sur la page
+    // SherleKhomes uniquement, donc on scope l'install à cet agent
+    // pour ne pas embarquer WaliPR dans l'IDE de l'utilisateur.
     var envParts = [
       "JIRA_URL=" + shellQuote(values.url),
       "JIRA_MODE=" + shellQuote(values.mode),
@@ -277,6 +280,7 @@
     if (values.mode === "api" && values.email) {
       envParts.push("JIRA_EMAIL=" + shellQuote(values.email));
     }
+    envParts.push("BUGHOUND_AGENTS=sherlekhomes");
     return [
       "curl -fsSL " + INSTALL_URL + " \\",
       "  | " + envParts.join(" ") + " bash",
@@ -349,6 +353,7 @@
     bindTabsBy("data-tab", "data-panel");
     bindTabsBy("data-config-tab", "data-config-panel");
     bindTabsBy("data-mcp-tab", "data-mcp-panel");
+    bindTabsBy("data-forge-tab", "data-forge-panel");
     bindConfigGenerator();
     tryUpgradeAvatarsToLottie();
   });
