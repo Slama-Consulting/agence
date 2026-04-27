@@ -126,20 +126,40 @@
           <span class="card-soon">Stay tuned</span>
         </article>
 
-        <!-- Carte fantôme : WaliPR (à venir) -->
-        <article class="card card-ghost" aria-disabled="true">
-          <div class="card-badge">Bientôt</div>
-          <div class="avatar avatar-ghost" data-agent="walipr">
-            <div class="avatar-photo" role="img" aria-label="WaliPR — review de code"></div>
+        <!-- Carte WaliPR -->
+        <article class="card card-active">
+          <div class="card-badge">Agent 02</div>
+
+          <div class="avatar" data-agent="walipr">
+            <span class="avatar-halo-pulse" aria-hidden="true"></span>
+            <span class="avatar-halo-ring" aria-hidden="true"></span>
+            <div class="avatar-photo" role="img" aria-label="WaliPR — inspecteur de pull requests"></div>
+            <div class="avatar-particles" aria-hidden="true">
+              <span class="p1"></span>
+              <span class="p2"></span>
+              <span class="p3"></span>
+              <span class="p4"></span>
+            </div>
+            <div class="avatar-lottie" data-lottie-src="assets/walipr.json" hidden></div>
           </div>
+
           <h3 class="card-name">WaliPR</h3>
           <p class="card-role">Inspecteur de pull requests</p>
           <p class="card-desc">
-            Relit vos pull requests, traque les régressions, les
-            risques de sécurité et propose des remarques prêtes
-            à coller en commentaires.
+            Relit vos PR/MR Kotlin, Python, TypeScript et Java sur
+            GitLab, GitHub et Bitbucket. Pose ses remarques en
+            commentaires inline, ligne par ligne.
           </p>
-          <span class="card-soon">Stay tuned</span>
+
+          <ul class="card-skills">
+            <li>Review multi-forge</li>
+            <li>Inline ligne par ligne</li>
+            <li>Patches suggérés</li>
+          </ul>
+
+          <a href="agents/walipr/" class="btn btn-primary card-cta">
+            Recruter cet agent →
+          </a>
         </article>
       </div>
     </section>
@@ -183,7 +203,7 @@
   <footer class="footer">
     <div class="footer-rule" aria-hidden="true"></div>
     <p class="footer-line">
-      © Slama Consulting · Repo privé GitHub · v1.0.3
+      © Slama Consulting · Repo privé GitHub · v1.0.4
     </p>
     <p class="footer-line footer-muted">
       Built with care · Sartrouville · 2026 ·

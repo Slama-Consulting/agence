@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WaliPR · L'Agence</title>
+  <meta name="description" content="Dossier de l'agent WaliPR — inspecteur de pull requests. Review de PR/MR Kotlin, Python, TypeScript, Java sur GitLab, GitHub, Bitbucket — avec commentaires inline ligne par ligne." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+</head>
+<body class="theme-noir-or page-agent">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="seal" aria-hidden="true">🕵</div>
+
+  <header class="topbar">
+    <a class="brand" href="../../">
+      <span class="brand-mark">🕵</span>
+      <span class="brand-name">L'<em>Agence</em></span>
+    </a>
+    <nav class="nav">
+      <a href="../../#galerie">Galerie</a>
+      <a href="../../#comment">Comment ça marche</a>
+      <a href="https://github.com/Slama-Consulting/BugHound" class="nav-muted" rel="noopener" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <main class="agent-page">
+    <a class="back-link" href="../../#galerie">← Retour à la galerie</a>
+
+    <!-- Bandeau "terminal de surveillance" -->
+    <div class="ticker">
+      <span class="ticker-line">&gt; tracking_target: <strong>WALIPR</strong></span>
+      <span class="ticker-line">&gt; status: <strong class="ticker-ok">ACTIVE</strong></span>
+      <span class="ticker-line">&gt; last_seen: <strong>2026-04-27</strong></span>
+    </div>
+
+    <section class="agent-hero">
+      <div class="agent-hero-avatar">
+        <div class="avatar avatar-large" data-agent="walipr">
+          <span class="avatar-halo-pulse" aria-hidden="true"></span>
+          <span class="avatar-halo-ring" aria-hidden="true"></span>
+          <div class="avatar-photo" role="img" aria-label="WaliPR — inspecteur de pull requests"></div>
+          <div class="avatar-particles" aria-hidden="true">
+            <span class="p1"></span>
+            <span class="p2"></span>
+            <span class="p3"></span>
+            <span class="p4"></span>
+          </div>
+          <div class="avatar-lottie" data-lottie-src="../../assets/walipr.json" hidden></div>
+        </div>
+      </div>
+
+      <div class="agent-hero-text">
+        <p class="agent-eyebrow">— Agent 02 —</p>
+        <h1 class="agent-name">WaliPR</h1>
+        <p class="agent-role">Inspecteur de pull requests</p>
+        <div class="agent-rule" aria-hidden="true"></div>
+        <blockquote class="agent-quote">
+          « Je relis chaque diff comme un dossier sensible. Mes
+          remarques se posent là où elles font mouche : sur la ligne. »
+        </blockquote>
+        <p class="agent-compat">
+          <span>Compatible :</span>
+          <span class="chip">Claude Code</span>
+          <span class="chip">Copilot</span>
+          <span class="chip">Cursor</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="agent-block">
+      <h2 class="agent-h2">Mission</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+      <p class="agent-p">
+        WaliPR relit vos pull requests et merge requests sur GitLab,
+        GitHub et Bitbucket (Cloud + Server). Il analyse le diff
+        Kotlin / Python / TypeScript / Java, traque les régressions,
+        les fuites de ressources et les anti-patterns, puis pose ses
+        remarques en <strong>commentaires inline, ligne par ligne</strong>,
+        avec des patches prêts à appliquer quand c'est pertinent.
+      </p>
+    </section>
+
+    <section class="agent-block">
+      <h2 class="agent-h2">Capacités</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+      <ul class="capabilities">
+        <li>
+          <span class="cap-name">review_local_diff</span>
+          <span class="cap-desc">Review d'un diff git local (working tree, branche, range).</span>
+        </li>
+        <li>
+          <span class="cap-name">review_staged</span>
+          <span class="cap-desc">Review des changements stagés avant <code>git commit</code>.</span>
+        </li>
+        <li>
+          <span class="cap-name">review_merge_request</span>
+          <span class="cap-desc">Review d'une PR/MR distante par URL — GitLab, GitHub, Bitbucket. Pose les commentaires inline directement sur la forge.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="agent-block" id="install">
+      <h2 class="agent-h2">Installer WaliPR</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+
+      <p class="agent-p">
+        WaliPR est livré avec BugHound. Une seule commande installe
+        l'agent et l'enregistre comme serveur MCP <code>walipr</code>
+        dans votre IDE.
+      </p>
+
+      <div class="code-card">
+        <pre><code id="install-walipr">curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash
+bughound mcp-install --agents walipr</code></pre>
+        <button class="copy-btn" data-copy-target="install-walipr" aria-label="Copier la commande">📋 Copier</button>
+      </div>
+
+      <p class="agent-p agent-muted">
+        Pour installer WaliPR <em>et</em> SherleKhomes en même temps :
+        <code>bughound mcp-install --agents sherlekhomes,walipr</code>.
+      </p>
+    </section>
+
+    <section class="agent-block" id="config">
+      <h2 class="agent-h2">Configurer votre forge</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+
+      <p class="agent-p">
+        Pour que WaliPR puisse lire et commenter une PR/MR, il a
+        besoin d'un token de la forge concernée. Les tokens vivent
+        dans <code>~/.bughound/.env</code>, sur votre machine —
+        <strong>jamais</strong> dans un dépôt git.
+      </p>
+
+      <div class="code-card">
+        <pre><code id="env-walipr"># GitLab (self-managed ou gitlab.com) — scope: api
+# WALIPR_GITLAB_TOKEN=
+
+# GitHub (github.com ou GHE) — scopes: repo, write:discussion
+# WALIPR_GITHUB_TOKEN=
+
+# Bitbucket Cloud — App Password : pull requests (read+write)
+# WALIPR_BITBUCKET_USER=mon-username
+# WALIPR_BITBUCKET_TOKEN=
+
+# Bitbucket Server / Data Center — HTTP Access Token : PR (read+write)
+# WALIPR_BITBUCKET_SERVER_TOKEN=
+</code></pre>
+        <button class="copy-btn" data-copy-target="env-walipr" aria-label="Copier le template">📋 Copier</button>
+      </div>
+
+      <p class="agent-p agent-muted">
+        Vous n'avez besoin que du token correspondant à la forge que
+        vous utilisez. Les autres lignes restent commentées.
+      </p>
+    </section>
+
+    <section class="agent-block">
+      <h2 class="agent-h2">Premiers pas</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+
+      <ol class="next-list">
+        <li>
+          Review en lecture seule d'une PR distante :
+          <code>bughound review-mr https://github.com/org/repo/pull/123</code>
+        </li>
+        <li>
+          Review d'une MR GitLab avec commentaires inline postés sur la forge :
+          <code>bughound review-mr &lt;url&gt; --post-inline</code>
+        </li>
+        <li>
+          Review locale avant push :
+          <code>bughound review-staged</code>
+        </li>
+        <li>
+          Côté IDE, ouvrez le chat MCP et adressez-vous à
+          <code>walipr</code> — il a accès aux trois outils ci-dessus.
+        </li>
+      </ol>
+
+      <p class="agent-p agent-muted">
+        <strong>À noter :</strong> WaliPR ne modifie jamais le code du
+        repo qu'il review. Il lit le diff, restitue son rapport, et
+        publie les commentaires sur la forge si vous le lui demandez
+        explicitement.
+      </p>
+    </section>
+
+    <section class="agent-block">
+      <h2 class="agent-h2">Dossier de l'agent</h2>
+      <div class="agent-rule small" aria-hidden="true"></div>
+
+      <dl class="meta-grid">
+        <div class="meta-row">
+          <dt>Version actuelle</dt>
+          <dd>1.8.0</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Dernière mission</dt>
+          <dd>2026-04-27</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Forges supportées</dt>
+          <dd>GitLab · GitHub · Bitbucket Cloud · Bitbucket Server</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Langages</dt>
+          <dd>Kotlin · Python · TypeScript · Java</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Python requis</dt>
+          <dd>≥ 3.11</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Licence</dt>
+          <dd>Propriétaire</dd>
+        </div>
+        <div class="meta-row">
+          <dt>Contact</dt>
+          <dd><a href="mailto:slama.walid1985@gmail.com" class="link-gold">slama.walid1985@gmail.com</a></dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule" aria-hidden="true"></div>
+    <p class="footer-line">
+      © Slama Consulting · Repo privé GitHub · v1.0.4
+    </p>
+    <p class="footer-line footer-muted">
+      Built with care · Sartrouville · 2026 ·
+      <a href="mailto:slama.walid1985@gmail.com" class="link-gold">slama.walid1985@gmail.com</a>
+    </p>
+  </footer>
+
+  <script src="../../assets/app.js" defer></script>
+</body>
+</html>
