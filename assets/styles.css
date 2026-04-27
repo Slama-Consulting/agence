@@ -795,7 +795,7 @@ main { position: relative; z-index: 2; }
 /* ----------------- Meta grid ----------------- */
 .meta-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
   margin: 18px 0;
 }
@@ -804,6 +804,7 @@ main { position: relative; z-index: 2; }
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 14px 18px;
+  min-width: 0; /* autorise le shrink en grid item, indispensable pour wrap */
 }
 .meta-row dt {
   font-family: var(--mono);
@@ -818,6 +819,12 @@ main { position: relative; z-index: 2; }
   font-family: var(--serif);
   font-size: 18px;
   color: var(--text);
+  overflow-wrap: anywhere; /* casse les longues chaînes (emails, URLs) */
+  word-break: break-word;
+}
+/* Liens longs (emails) : taille un peu plus petite pour rentrer dans le cadre */
+.meta-row dd a {
+  font-size: 15px;
 }
 
 .link-gold {
