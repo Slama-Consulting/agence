@@ -270,7 +270,8 @@ fi
 
 # ----- enregistrement MCP ---------------------------------------------------
 # Idempotent grâce au merge prudent : préserve les autres serveurs MCP de
-# l'utilisateur, et ne réécrit l'entrée 'bughound' que si elle change.
+# l'utilisateur, et ne réécrit l'entrée 'sherlekhomes' que si elle change.
+# Migre automatiquement l'ancienne clé 'bughound' vers 'sherlekhomes'.
 if command -v bughound >/dev/null 2>&1; then
     log_info "Enregistrement de BugHound comme serveur MCP (Claude / VS Code / Cursor)."
     if ! bughound mcp-install --yes --overwrite >&2; then
@@ -291,7 +292,7 @@ cat <<'EOF'
     2. Lancez votre première enquête :
          bughound analyze MON-TICKET-42
     3. Dans votre IDE (VS Code, Cursor) ou Claude Code, le serveur
-       MCP 'bughound' est déjà enregistré — relancez l'IDE et
+       MCP 'sherlekhomes' est déjà enregistré — relancez l'IDE et
        appelez-le depuis le chat.
 
   Documentation : voir la galerie des agents sur L'Agence.
