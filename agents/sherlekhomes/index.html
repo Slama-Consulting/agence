@@ -89,11 +89,11 @@
       <ul class="capabilities">
         <li>
           <span class="cap-name">analyze_ticket</span>
-          <span class="cap-desc">Diagnostic complet d'un ticket Jira (legacy / monolithique).</span>
+          <span class="cap-desc">Diagnostic complet d'un ticket Jira. Mode <code>best</code> par défaut : délègue à votre LLM externe avec un prompt prêt à exécuter (préserve la fenêtre de contexte du chat).</span>
         </li>
         <li>
-          <span class="cap-name">best_handoff</span>
-          <span class="cap-desc">Délègue à votre LLM avec un contexte enrichi prêt à l'emploi.</span>
+          <span class="cap-name">mode legacy / monolithique</span>
+          <span class="cap-desc">Opt-in via <code>--mode legacy</code> ou <code>--mode monolithic</code> quand vous voulez un rapport markdown généré côté BugHound.</span>
         </li>
         <li>
           <span class="cap-name">summarize_thread</span>
@@ -439,11 +439,11 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
       <dl class="meta-grid">
         <div class="meta-row">
           <dt>Version actuelle</dt>
-          <dd>1.8.4</dd>
+          <dd>1.11.0</dd>
         </div>
         <div class="meta-row">
           <dt>Dernière mission</dt>
-          <dd>2026-03-16</dd>
+          <dd>2026-04-28</dd>
         </div>
         <div class="meta-row">
           <dt>Python requis</dt>
@@ -468,7 +468,7 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
   <footer class="footer">
     <div class="footer-rule" aria-hidden="true"></div>
     <p class="footer-line">
-      © Slama Consulting · Repo privé GitHub · v1.0.7
+      © Slama Consulting · Repo privé GitHub · v1.0.8
     </p>
     <p class="footer-line footer-muted">
       Built with care · Sartrouville · 2026 ·
