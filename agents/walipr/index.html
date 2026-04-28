@@ -87,6 +87,44 @@
     <section class="agent-block">
       <h2 class="agent-h2">Capacités</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
+      <p class="agent-p">
+        Depuis la <strong>v1.10</strong>, WaliPR expose <strong>9 outils
+        MCP</strong> répartis en deux modes : un workflow
+        <strong>agentique</strong> (recommandé) où l'agent IDE compose
+        plusieurs outils pour aller chercher le contexte hors-diff, et
+        un mode <strong>one-shot</strong> hérité (rapide mais
+        superficiel).
+      </p>
+
+      <h3 class="next-title" style="margin-top:1.2rem;">Mode agentique (5 outils, recommandé)</h3>
+      <ul class="capabilities">
+        <li>
+          <span class="cap-name">walipr_review_mr_orchestrate</span>
+          <span class="cap-desc">Point d'entrée. Renvoie un plan textuel FR/EN qui guide l'agent IDE étape par étape, sans appel LLM ni réseau.</span>
+        </li>
+        <li>
+          <span class="cap-name">walipr_get_mr_metadata</span>
+          <span class="cap-desc">Titre, description, branches, SHA — pour comprendre l'<em>intention</em> de la MR.</span>
+        </li>
+        <li>
+          <span class="cap-name">walipr_get_mr_diff</span>
+          <span class="cap-desc">Diff unifié + résumé par fichier touché.</span>
+        </li>
+        <li>
+          <span class="cap-name">walipr_get_mr_file</span>
+          <span class="cap-desc">Contenu complet d'un fichier à la SHA de la MR — pour donner du contexte autour des hunks.</span>
+        </li>
+        <li>
+          <span class="cap-name">walipr_submit_mr_review</span>
+          <span class="cap-desc">Poste les findings comme <strong>drafts</strong> (« Add to review ») par défaut. Pas de notification au reviewé tant que tu n'as pas publié.</span>
+        </li>
+        <li>
+          <span class="cap-name">walipr_publish_mr_review</span>
+          <span class="cap-desc">Publie tous les drafts en une <strong>review groupée</strong> (1 notification au lieu de N). Équivalent du bouton « Submit review » côté GitLab/GitHub.</span>
+        </li>
+      </ul>
+
+      <h3 class="next-title" style="margin-top:1.2rem;">Mode legacy (one-shot et local)</h3>
       <ul class="capabilities">
         <li>
           <span class="cap-name">review_local_diff</span>
@@ -98,7 +136,7 @@
         </li>
         <li>
           <span class="cap-name">review_merge_request</span>
-          <span class="cap-desc">Review d'une PR/MR distante par URL — GitLab, GitHub, Bitbucket. Pose les commentaires inline directement sur la forge.</span>
+          <span class="cap-desc">One-shot. Voit uniquement le diff hors-contexte — réservé aux cas où la rapidité prime sur la profondeur.</span>
         </li>
       </ul>
     </section>
@@ -289,28 +327,38 @@ bughound review-mr https://gitlab.com/.../merge_requests/42 --post-inline</code>
           (saisie masquée, par forge).
         </li>
         <li>
-          Review en lecture seule d'une PR distante :
+          <strong>Mode agentique</strong> (recommandé) — dans
+          Cursor / Claude Desktop / Copilot, dites simplement :
+          <code>review &lt;url-de-la-MR&gt;</code>. WaliPR enchaîne
+          automatiquement metadata → diff → fichiers complets →
+          drafts groupés.
+        </li>
+        <li>
+          <strong>Mode CLI one-shot</strong> (rapide, hors agent) :
           <code>bughound review-mr https://github.com/org/repo/pull/123</code>
         </li>
         <li>
-          Review d'une MR GitLab avec commentaires inline postés sur la forge :
-          <code>bughound review-mr &lt;url&gt; --post-inline</code>
-        </li>
-        <li>
-          Review locale avant push :
+          <strong>Pre-commit local</strong> avant push :
           <code>bughound review-staged</code>
         </li>
         <li>
-          Côté IDE, ouvrez le chat MCP et adressez-vous à
-          <code>walipr</code> — il a accès aux trois outils ci-dessus.
+          Côté forge : les findings agentiques arrivent en
+          <strong>drafts</strong> (« Pending review » sur GitLab,
+          « Pending Review » sur GitHub). Vous pouvez relire / éditer
+          / supprimer chaque draft avant de cliquer
+          <strong>« Submit review »</strong>, ou laisser l'agent
+          appeler <code>walipr_publish_mr_review</code> pour publier
+          d'un coup.
         </li>
       </ol>
 
       <p class="agent-p agent-muted">
         <strong>À noter :</strong> WaliPR ne modifie jamais le code du
-        repo qu'il review. Il lit le diff, restitue son rapport, et
-        publie les commentaires sur la forge si vous le lui demandez
-        explicitement.
+        repo qu'il review. Il ne reviewe QUE les changements
+        introduits par la MR/PR (jamais le code pré-existant
+        non touché par le diff). Le contexte fichier complet sert
+        uniquement à juger l'impact des hunks, pas à être commenté
+        ligne par ligne.
       </p>
     </section>
 
@@ -321,7 +369,7 @@ bughound review-mr https://gitlab.com/.../merge_requests/42 --post-inline</code>
       <dl class="meta-grid">
         <div class="meta-row">
           <dt>Version actuelle</dt>
-          <dd>1.8.4</dd>
+          <dd>1.10.0</dd>
         </div>
         <div class="meta-row">
           <dt>Dernière mission</dt>
@@ -354,7 +402,7 @@ bughound review-mr https://gitlab.com/.../merge_requests/42 --post-inline</code>
   <footer class="footer">
     <div class="footer-rule" aria-hidden="true"></div>
     <p class="footer-line">
-      © Slama Consulting · Repo privé GitHub · v1.0.6
+      © Slama Consulting · Repo privé GitHub · v1.0.7
     </p>
     <p class="footer-line footer-muted">
       Built with care · Sartrouville · 2026 ·
