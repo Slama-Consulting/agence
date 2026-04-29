@@ -3,1076 +3,224 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>L'Agence — Comparaison de 5 designs</title>
+  <title>L'atelier · Slama Consulting</title>
+  <meta name="description" content="La méthode Slama Consulting pour construire des agents IA de niveau production : protocole MCP, single-context, secrets locaux." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <style>
-    /* ================================================================
-       VARIABLES PARTAGÉES & RESET
-       ================================================================ */
-    :root {
-      --photo: url("assets/avatar.png");
-      --photo-fallback: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23262B33'/><circle cx='100' cy='80' r='32' fill='%233a3f46'/><path d='M40 200 Q40 130 100 130 Q160 130 160 200 Z' fill='%233a3f46'/><text x='100' y='180' text-anchor='middle' font-family='monospace' font-size='10' fill='%239AA0A6'>avatar.png ?</text></svg>");
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      background: #0B0D10;
-      color: #E8EAED;
-      font-family: 'Inter', system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; }
-
-    /* ----- Topbar de la page de comparaison ----- */
-    .compare-bar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 32px;
-      background: rgba(11,13,16,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid #262B33;
-    }
-    .compare-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      letter-spacing: 0.02em;
-    }
-    .compare-title em { color: #E8B86A; font-style: italic; }
-    .compare-nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-    }
-    .compare-nav a {
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid #262B33;
-      color: #9AA0A6;
-      text-decoration: none;
-      transition: all 200ms;
-    }
-    .compare-nav a:hover { border-color: #E8B86A; color: #E8B86A; }
-
-    .compare-intro {
-      max-width: 760px;
-      margin: 60px auto 40px;
-      padding: 0 32px;
-      text-align: center;
-    }
-    .compare-intro h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 44px);
-      margin: 0 0 16px;
-    }
-    .compare-intro p {
-      color: #9AA0A6;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    .compare-intro code {
-      font-family: 'JetBrains Mono', monospace;
-      color: #E8B86A;
-      background: rgba(232,184,106,0.08);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
-
-    /* ----- Étiquette de design ----- */
-    .design-label {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      max-width: 1240px;
-      margin: 80px auto 24px;
-      padding: 0 32px;
-    }
-    .design-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 64px;
-      font-weight: 700;
-      background: linear-gradient(180deg, #F2C97A, #C7943B);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1;
-    }
-    .design-info h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      margin: 0 0 4px;
-    }
-    .design-info p {
-      margin: 0;
-      color: #9AA0A6;
-      font-size: 14px;
-      max-width: 60ch;
-    }
-
-    /* ===================================================================
-       DESIGN 1 — NOIR & OR CLASSIQUE (raffiné, photo intégrée en médaillon)
-       =================================================================== */
-    .d1 {
-      max-width: 1240px;
-      margin: 0 auto 80px;
-      padding: 60px 32px;
-      background: #0F1115;
-      border-radius: 24px;
-      border: 1px solid #1F2329;
-      position: relative;
-      overflow: hidden;
-    }
-    .d1::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,184,106,0.10), transparent 70%),
-        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(232,184,106,0.05), transparent 70%);
-      pointer-events: none;
-    }
-    .d1-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .d1-portrait {
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      background:
-        var(--photo),
-        var(--photo-fallback);
-      background-size: cover;
-      background-position: center top;
-      box-shadow:
-        0 0 0 1px rgba(232,184,106,0.4),
-        0 0 0 8px rgba(232,184,106,0.06),
-        0 0 80px rgba(232,184,106,0.20),
-        inset 0 0 60px rgba(0,0,0,0.4);
-    }
-    .d1-portrait::after {
-      content: "";
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        transparent 0deg, #E8B86A 90deg, transparent 180deg,
-        #E8B86A 270deg, transparent 360deg
-      );
-      opacity: 0.3;
-      filter: blur(6px);
-      animation: d1-rotate 12s linear infinite;
-      z-index: -1;
-    }
-    @keyframes d1-rotate { to { transform: rotate(360deg); } }
-
-    .d1-text .d1-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      color: #E8B86A;
-      text-transform: uppercase;
-      margin: 0 0 16px;
-    }
-    .d1-text h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(40px, 5vw, 60px);
-      margin: 0 0 4px;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-    }
-    .d1-text .d1-role {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: #C7943B;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin: 0 0 24px;
-    }
-    .d1-text blockquote {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 22px;
-      color: #E8EAED;
-      line-height: 1.5;
-      margin: 0 0 24px;
-      padding-left: 18px;
-      border-left: 2px solid #E8B86A;
-    }
-    .d1-cta {
-      display: inline-flex;
-      gap: 12px;
-      align-items: center;
-      padding: 14px 26px;
-      background: linear-gradient(180deg, #F2C97A, #C7943B);
-      color: #1a1206;
-      font-weight: 600;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 6px 18px rgba(232,184,106,0.25);
-    }
-
-    /* ===================================================================
-       DESIGN 2 — DOSSIER D'ENQUÊTE / CARTE D'IDENTITÉ
-       Imitation d'une fiche de service, feuille papier, ID card
-       =================================================================== */
-    .d2 {
-      max-width: 1240px;
-      margin: 0 auto 80px;
-      padding: 60px 32px;
-      background: #14110C;
-      border-radius: 0;
-      border: 1px solid #2a2418;
-      position: relative;
-    }
-    .d2::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(0deg, transparent 0 24px, rgba(232,184,106,0.04) 24px 25px),
-        radial-gradient(ellipse at 50% 0%, rgba(232,184,106,0.06), transparent 70%);
-      pointer-events: none;
-    }
-    .d2-card {
-      max-width: 880px;
-      margin: 0 auto;
-      background: #f4ede0;
-      color: #1a1206;
-      padding: 0;
-      border: 1px solid #c9b88a;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 12px #14110C;
-      transform: rotate(-0.4deg);
-      position: relative;
-      font-family: 'Inter', sans-serif;
-    }
-    .d2-card::before {
-      content: "CONFIDENTIEL";
-      position: absolute;
-      top: 26px;
-      right: -14px;
-      background: #8a1a1a;
-      color: #f4ede0;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      padding: 6px 18px;
-      transform: rotate(8deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-    .d2-header {
-      padding: 24px 32px;
-      border-bottom: 1px dashed #1a1206;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .d2-org {
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: 14px;
-      letter-spacing: 0.18em;
-    }
-    .d2-org em { color: #8a1a1a; font-style: normal; }
-    .d2-id {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #5a4d2c;
-    }
-    .d2-body {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 32px;
-      padding: 36px 32px;
-    }
-    .d2-photo {
-      width: 220px;
-      height: 260px;
-      background:
-        var(--photo),
-        var(--photo-fallback);
-      background-size: cover;
-      background-position: center top;
-      border: 1px solid #1a1206;
-      box-shadow: 4px 4px 0 #1a1206;
-      filter: contrast(1.05) saturate(0.85) sepia(0.10);
-      position: relative;
-    }
-    .d2-photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 60%, rgba(138,26,26,0.4) 100%);
-      mix-blend-mode: multiply;
-    }
-    .d2-fields {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .d2-row {
-      display: grid;
-      grid-template-columns: 130px 1fr;
-      gap: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px dotted #8a7d5a;
-      font-size: 14px;
-    }
-    .d2-row dt {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #5a4d2c;
-      align-self: end;
-    }
-    .d2-row dd {
-      margin: 0;
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      color: #1a1206;
-    }
-    .d2-row dd.handwritten {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 19px;
-    }
-    .d2-stamp {
-      position: absolute;
-      bottom: 30px;
-      right: 32px;
-      width: 110px;
-      height: 110px;
-      border: 3px solid #8a1a1a;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: #8a1a1a;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      transform: rotate(-12deg);
-      opacity: 0.85;
-    }
-    .d2-stamp strong { font-size: 14px; letter-spacing: 0.1em; margin: 4px 0; }
-    .d2-footer {
-      padding: 16px 32px;
-      border-top: 1px dashed #1a1206;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #5a4d2c;
-      letter-spacing: 0.18em;
-    }
-
-    /* ===================================================================
-       DESIGN 3 — APPLE / VISION PREMIUM
-       Glassmorphism, espaces, typo SF-style, photo intégrée subtilement
-       =================================================================== */
-    .d3 {
-      max-width: 1240px;
-      margin: 0 auto 80px;
-      padding: 100px 32px;
-      background:
-        radial-gradient(ellipse at 30% 20%, rgba(124,196,245,0.08), transparent 60%),
-        radial-gradient(ellipse at 70% 80%, rgba(232,184,106,0.06), transparent 60%),
-        #0a0c10;
-      border-radius: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-    .d3-grid {
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .d3-photo-wrap {
-      width: 220px;
-      height: 220px;
-      margin: 0 auto 48px;
-      border-radius: 50%;
-      position: relative;
-      background:
-        var(--photo),
-        var(--photo-fallback);
-      background-size: cover;
-      background-position: center top;
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.4),
-        0 0 0 1px rgba(255,255,255,0.05);
-    }
-    .d3-photo-wrap::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%);
-      pointer-events: none;
-    }
-    .d3-eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #7CC4F5;
-      letter-spacing: 0;
-      margin: 0 0 16px;
-    }
-    .d3-title {
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: clamp(48px, 7vw, 96px);
-      line-height: 1;
-      letter-spacing: -0.04em;
-      margin: 0 0 16px;
-      background: linear-gradient(180deg, #ffffff 30%, #9AA0A6 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .d3-subtitle {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(20px, 2.4vw, 28px);
-      font-weight: 400;
-      color: #9AA0A6;
-      max-width: 600px;
-      margin: 0 auto 48px;
-      line-height: 1.4;
-    }
-    .d3-pills {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 56px;
-      flex-wrap: wrap;
-    }
-    .d3-pill {
-      padding: 10px 20px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 999px;
-      font-size: 13px;
-      color: #E8EAED;
-      font-weight: 500;
-    }
-    .d3-cta {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 18px 36px;
-      background: #ffffff;
-      color: #0a0c10;
-      font-weight: 600;
-      font-size: 15px;
-      border-radius: 999px;
-      text-decoration: none;
-      transition: transform 200ms;
-    }
-    .d3-cta:hover { transform: scale(1.03); }
-    .d3-cta-secondary {
-      margin-left: 12px;
-      padding: 18px 36px;
-      background: transparent;
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    /* ===================================================================
-       DESIGN 4 — CYBER / TERMINAL DE SURVEILLANCE
-       Hacker dashboard, scan lines, photo en mode "tracking target"
-       =================================================================== */
-    .d4 {
-      max-width: 1240px;
-      margin: 0 auto 80px;
-      padding: 0;
-      background: #000;
-      border: 1px solid #1a3a1a;
-      border-radius: 4px;
-      position: relative;
-      overflow: hidden;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .d4::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: repeating-linear-gradient(
-        0deg, transparent 0 2px, rgba(0,255,140,0.03) 2px 3px
-      );
-      pointer-events: none;
-      z-index: 1;
-    }
-    .d4-bar {
-      display: flex;
-      gap: 16px;
-      padding: 10px 16px;
-      border-bottom: 1px solid #1a3a1a;
-      background: #050805;
-      color: #00ff8c;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-    }
-    .d4-bar .bar-dot {
-      width: 8px; height: 8px;
-      background: #00ff8c;
-      border-radius: 50%;
-      margin: 4px 0;
-      box-shadow: 0 0 6px #00ff8c;
-      animation: blink-dot 1.6s infinite;
-    }
-    @keyframes blink-dot { 50% { opacity: 0.3; } }
-    .d4-bar .bar-spacer { flex: 1; }
-    .d4-grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 0;
-      position: relative;
-      z-index: 2;
-    }
-    .d4-photo-block {
-      position: relative;
-      padding: 32px;
-      border-right: 1px solid #1a3a1a;
-      background: linear-gradient(180deg, #0a0d0a, #000);
-    }
-    .d4-photo {
-      width: 100%;
-      aspect-ratio: 1;
-      background:
-        var(--photo),
-        var(--photo-fallback);
-      background-size: cover;
-      background-position: center top;
-      filter: hue-rotate(85deg) saturate(0.7) contrast(1.2) brightness(0.9);
-      position: relative;
-      border: 1px solid #00ff8c;
-    }
-    .d4-photo::before {
-      /* corners de tracking */
-      content: "";
-      position: absolute;
-      inset: -6px;
-      background:
-        linear-gradient(#00ff8c, #00ff8c) top left/14px 2px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) top left/2px 14px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) top right/14px 2px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) top right/2px 14px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) bottom left/14px 2px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) bottom left/2px 14px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) bottom right/14px 2px no-repeat,
-        linear-gradient(#00ff8c, #00ff8c) bottom right/2px 14px no-repeat;
-    }
-    .d4-photo::after {
-      content: "";
-      position: absolute;
-      left: 0; right: 0;
-      top: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #00ff8c, transparent);
-      animation: d4-scan 2.2s ease-in-out infinite;
-      box-shadow: 0 0 12px #00ff8c;
-    }
-    @keyframes d4-scan {
-      0%, 100% { top: 0; }
-      50%      { top: 100%; }
-    }
-    .d4-photo-meta {
-      margin-top: 16px;
-      color: #00ff8c;
-      font-size: 10px;
-      line-height: 1.8;
-      opacity: 0.8;
-    }
-    .d4-info-block {
-      padding: 32px;
-      color: #00ff8c;
-    }
-    .d4-info-block h3 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 28px;
-      margin: 0 0 4px;
-      letter-spacing: 0.04em;
-      text-shadow: 0 0 12px rgba(0,255,140,0.5);
-    }
-    .d4-info-block .d4-role {
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      color: #00b860;
-      margin: 0 0 24px;
-    }
-    .d4-log {
-      font-size: 12px;
-      line-height: 1.8;
-      color: #c8e8c8;
-    }
-    .d4-log .log-key { color: #00ff8c; }
-    .d4-log .log-warn { color: #ffd84a; }
-    .d4-log .log-ok { color: #00ff8c; }
-    .d4-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 28px;
-      padding: 12px 22px;
-      background: transparent;
-      color: #00ff8c;
-      border: 1px solid #00ff8c;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 200ms;
-    }
-    .d4-cta:hover {
-      background: #00ff8c;
-      color: #000;
-      box-shadow: 0 0 24px rgba(0,255,140,0.4);
-    }
-
-    /* ===================================================================
-       DESIGN 5 — ÉDITORIAL MAGAZINE / PORTRAIT XL
-       Photo immense, typo gigantesque, mise en page presse premium
-       =================================================================== */
-    .d5 {
-      max-width: 1240px;
-      margin: 0 auto 80px;
-      padding: 0;
-      background: #0B0D10;
-      border-radius: 0;
-      overflow: hidden;
-    }
-    .d5-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.3fr;
-      min-height: 640px;
-    }
-    .d5-photo {
-      background:
-        var(--photo),
-        var(--photo-fallback);
-      background-size: cover;
-      background-position: center top;
-      position: relative;
-      filter: contrast(1.05) saturate(0.95);
-    }
-    .d5-photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 50%, rgba(11,13,16,0.6));
-    }
-    .d5-content {
-      padding: 80px 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: #0B0D10;
-      position: relative;
-    }
-    .d5-issue {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 14px;
-      letter-spacing: 0.4em;
-      color: #E8B86A;
-      margin: 0 0 8px;
-    }
-    .d5-issue::after {
-      content: " · ENQUÊTE NO 01 · DOSSIER OUVERT";
-      color: #5d636b;
-      letter-spacing: 0.2em;
-    }
-    .d5-name {
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: clamp(52px, 9vw, 120px);
-      line-height: 0.9;
-      letter-spacing: -0.03em;
-      margin: 12px 0 0;
-      color: #E8EAED;
-    }
-    .d5-name em {
-      font-style: italic;
-      font-weight: 500;
-      color: #E8B86A;
-      display: block;
-    }
-    .d5-rule {
-      width: 80px;
-      height: 2px;
-      background: #E8B86A;
-      margin: 32px 0 24px;
-    }
-    .d5-lede {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 22px;
-      line-height: 1.5;
-      color: #E8EAED;
-      max-width: 38ch;
-      margin: 0 0 16px;
-    }
-    .d5-lede::first-letter {
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: 84px;
-      float: left;
-      line-height: 0.85;
-      margin: 6px 12px 0 -4px;
-      color: #E8B86A;
-      font-style: normal;
-    }
-    .d5-byline {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      color: #5d636b;
-      text-transform: uppercase;
-      margin: 24px 0 32px;
-    }
-    .d5-byline strong { color: #E8B86A; font-weight: 500; }
-    .d5-cta-row {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .d5-cta {
-      padding: 16px 28px;
-      background: #E8B86A;
-      color: #0B0D10;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border-radius: 0;
-      transition: background 200ms;
-    }
-    .d5-cta:hover { background: #F2C97A; }
-    .d5-cta-ghost {
-      padding: 16px 28px;
-      background: transparent;
-      color: #E8EAED;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border: 1px solid #262B33;
-    }
-    .d5-cta-ghost:hover { border-color: #E8B86A; color: #E8B86A; }
-    .d5-page-num {
-      position: absolute;
-      bottom: 32px;
-      right: 56px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #5d636b;
-      letter-spacing: 0.2em;
-    }
-
-    /* ----- Responsive global ----- */
-    @media (max-width: 900px) {
-      .d1-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
-      .d1-portrait { margin: 0 auto; }
-      .d1-text blockquote { border-left: none; padding-left: 0; }
-      .d2-body { grid-template-columns: 1fr; }
-      .d2-photo { width: 100%; max-width: 280px; margin: 0 auto; }
-      .d4-grid { grid-template-columns: 1fr; }
-      .d4-photo-block { border-right: none; border-bottom: 1px solid #1a3a1a; }
-      .d5-grid { grid-template-columns: 1fr; }
-      .d5-photo { min-height: 380px; }
-    }
-
-    /* ----- Footer de comparaison ----- */
-    .compare-footer {
-      max-width: 760px;
-      margin: 80px auto 60px;
-      padding: 0 32px;
-      text-align: center;
-      color: #9AA0A6;
-      font-size: 14px;
-    }
-    .compare-footer a {
-      color: #E8B86A;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(232,184,106,0.3);
-    }
-  </style>
 </head>
 <body>
+  <div class="cursor-halo" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
 
-  <header class="compare-bar">
-    <span class="compare-title">L'<em>Agence</em> · Comparaison de 5 designs</span>
-    <nav class="compare-nav">
-      <a href="#design-1">① Noir & Or</a>
-      <a href="#design-2">② Dossier</a>
-      <a href="#design-3">③ Vision</a>
-      <a href="#design-4">④ Cyber</a>
-      <a href="#design-5">⑤ Éditorial</a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#1E2A78"/>
+        <stop offset="50%" stop-color="#2563EB"/>
+        <stop offset="100%" stop-color="#7C3AED"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Slama Consulting · accueil">
+      <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="draw" data-d="1" d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <path class="draw" data-d="2" d="M50 22 Q40 22 40 32 Q40 42 50 42"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <circle class="draw" data-d="3" cx="52" cy="32" r="3" fill="none" stroke="#7C3AED" stroke-width="2"/>
+      </svg>
+      <span class="brand-name">slama<em>consulting</em></span>
+      <span class="brand-tagline">IA &amp; Dév</span>
+    </a>
+    <nav class="nav">
+      <a href="./#galerie">Agents</a>
+      <a href="./#comment">Méthode</a>
+      <a href="compare.html" aria-current="page">L'atelier</a>
+      <a class="nav-cta" href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub →</a>
     </nav>
   </header>
 
-  <section class="compare-intro">
-    <h1>5 directions visuelles pour SherleKhomes</h1>
-    <p>
-      Chaque design utilise la même photo (<code>assets/avatar.png</code>)
-      avec un traitement différent. Scrollez pour comparer, et dis-moi
-      lequel parle le plus.
-    </p>
-  </section>
+  <main>
+    <section class="atelier-hero">
+      <p class="hero-eyebrow" data-reveal style="justify-content:center">
+        <span class="dot" aria-hidden="true"></span>
+        L'atelier · Méthode &amp; principes
+      </p>
+      <h1 data-reveal data-reveal-delay="1">
+        On ne construit pas un agent<br/>
+        comme on bricole une <em>démo</em>.
+      </h1>
+      <p data-reveal data-reveal-delay="2">
+        Chaque agent de la galerie suit la même discipline : un seul
+        contexte de conversation, des secrets qui ne quittent jamais le
+        poste, un protocole MCP propre, et une distribution servie
+        depuis GitHub Pages.
+      </p>
+    </section>
 
-  <!-- ============================================================
-       DESIGN 1 — NOIR & OR CLASSIQUE (RAFFINÉ)
-       ============================================================ -->
-  <div class="design-label" id="design-1">
-    <span class="design-num">01</span>
-    <div class="design-info">
-      <h2>Noir & Or — raffiné</h2>
-      <p>
-        Évolution premium du design actuel. Médaillon circulaire avec
-        halo doré rotatif, typographie Playfair, citation en exergue.
-        Sobre, intemporel, gentleman.
-      </p>
-    </div>
-  </div>
-  <section class="d1">
-    <div class="d1-grid">
-      <div class="d1-portrait" role="img" aria-label="Portrait de SherleKhomes"></div>
-      <div class="d1-text">
-        <p class="d1-eyebrow">— Agent 01 ·  Casting actif</p>
-        <h3>SherleKhomes</h3>
-        <p class="d1-role">Analyste de tickets Jira</p>
-        <blockquote>
-          « Quand un ticket arrive sur mon bureau, je l'épluche
-          jusqu'à ce qu'il livre la vérité. »
-        </blockquote>
-        <a href="#" class="d1-cta">Recruter cet agent →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       DESIGN 2 — DOSSIER D'ENQUÊTE / CARTE D'IDENTITÉ
-       ============================================================ -->
-  <div class="design-label" id="design-2">
-    <span class="design-num">02</span>
-    <div class="design-info">
-      <h2>Dossier d'enquête — papier vintage</h2>
-      <p>
-        Carte d'identité de service secret. Photo en sépia, tampon
-        "Confidentiel", police Playfair manuscrite, fiche imprimée.
-        Atmosphère espionnage rétro 1940s.
-      </p>
-    </div>
-  </div>
-  <section class="d2">
-    <div class="d2-card">
-      <div class="d2-header">
-        <span class="d2-org">L'<em>AGENCE</em> · BUREAU CENTRAL</span>
-        <span class="d2-id">DOSSIER N° 0001 · CLASSE A</span>
-      </div>
-      <div class="d2-body">
-        <div class="d2-photo" role="img" aria-label="Portrait d'agent"></div>
-        <dl class="d2-fields">
-          <div class="d2-row">
-            <dt>Nom de code</dt>
-            <dd>SherleKhomes</dd>
-          </div>
-          <div class="d2-row">
-            <dt>Spécialité</dt>
-            <dd class="handwritten">Analyse de tickets Jira</dd>
-          </div>
-          <div class="d2-row">
-            <dt>Méthode</dt>
-            <dd class="handwritten">Recoupement, déduction, preuve</dd>
-          </div>
-          <div class="d2-row">
-            <dt>Compatibilité</dt>
-            <dd>Claude Code · Copilot · Cursor</dd>
-          </div>
-          <div class="d2-row">
-            <dt>Statut</dt>
-            <dd class="handwritten">En service · Disponible</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="d2-stamp">
-        Approuvé
-        <strong>★</strong>
-        L'Agence
-      </div>
-      <div class="d2-footer">
-        <span>FORM-01-A · 2026</span>
-        <span>RECRUTER → /agents/sherlekhomes/</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       DESIGN 3 — APPLE / VISION PREMIUM
-       ============================================================ -->
-  <div class="design-label" id="design-3">
-    <span class="design-num">03</span>
-    <div class="design-info">
-      <h2>Apple Vision — minimal premium</h2>
-      <p>
-        Inspiré de la communication Apple. Beaucoup d'espace,
-        typographie géante, photo discrète, glassmorphism subtil.
-        Le moins "thématique", le plus universel.
-      </p>
-    </div>
-  </div>
-  <section class="d3">
-    <div class="d3-grid">
-      <div class="d3-photo-wrap" role="img" aria-label="Portrait de l'agent"></div>
-      <p class="d3-eyebrow">Présentation de l'agent 01</p>
-      <h3 class="d3-title">SherleKhomes.</h3>
-      <p class="d3-subtitle">
-        L'analyste de tickets qui voit ce que les autres ratent.
-      </p>
-      <div class="d3-pills">
-        <span class="d3-pill">Cause racine</span>
-        <span class="d3-pill">Reproduction</span>
-        <span class="d3-pill">Fix proposé</span>
-        <span class="d3-pill">Pour Claude · Copilot · Cursor</span>
-      </div>
-      <div>
-        <a href="#" class="d3-cta">Recruter →</a>
-        <a href="#" class="d3-cta-secondary">En savoir plus</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       DESIGN 4 — CYBER / TERMINAL DE SURVEILLANCE
-       ============================================================ -->
-  <div class="design-label" id="design-4">
-    <span class="design-num">04</span>
-    <div class="design-info">
-      <h2>Cyber Terminal — tracking target</h2>
-      <p>
-        Dashboard de surveillance hacker. Vert phosphore, scan-lines,
-        coins de tracking sur la photo, log live, ambiance Mr Robot /
-        Watch_Dogs. Fait pour les devs qui aiment les terminaux.
-      </p>
-    </div>
-  </div>
-  <section class="d4">
-    <div class="d4-bar">
-      <span class="bar-dot"></span>
-      <span>SURVEILLANCE_FEED://AGENT_01</span>
-      <span class="bar-spacer"></span>
-      <span>STATUS: ONLINE</span>
-      <span>UPTIME: 99.98%</span>
-      <span>2026-04-26T14:32:08Z</span>
-    </div>
-    <div class="d4-grid">
-      <div class="d4-photo-block">
-        <div class="d4-photo" role="img" aria-label="Cible suivie"></div>
-        <div class="d4-photo-meta">
-          &gt; subject_id: SHK-001<br />
-          &gt; classification: ANALYST<br />
-          &gt; clearance: ALPHA<br />
-          &gt; last_ping: 12s ago
-        </div>
-      </div>
-      <div class="d4-info-block">
-        <h3>&gt; SherleKhomes_</h3>
-        <p class="d4-role">// Ticket forensics specialist</p>
-        <pre class="d4-log">[INIT] Loading agent profile...
-[<span class="log-ok">OK</span>]   Authentication confirmed
-[<span class="log-ok">OK</span>]   MCP bridge established
-[<span class="log-ok">OK</span>]   Jira credentials cached
-[<span class="log-warn">WARN</span>] No active mission
-[INFO] Awaiting deployment...
-[INFO] Capabilities loaded:
-       · analyze_ticket
-       · best_handoff
-       · summarize_thread
-[INFO] Ready to receive ticket key.</pre>
-        <a href="#" class="d4-cta">▸ Deploy_agent</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       DESIGN 5 — ÉDITORIAL MAGAZINE / PORTRAIT XL
-       ============================================================ -->
-  <div class="design-label" id="design-5">
-    <span class="design-num">05</span>
-    <div class="design-info">
-      <h2>Éditorial magazine — portrait XL</h2>
-      <p>
-        Mise en page de magazine premium type Vogue / Numero. Photo
-        plein cadre côté gauche, typographie XXL, lettrine baroque.
-        Le plus "luxe", impact visuel maximum.
-      </p>
-    </div>
-  </div>
-  <section class="d5">
-    <div class="d5-grid">
-      <div class="d5-photo" role="img" aria-label="Portrait pleine page"></div>
-      <div class="d5-content">
-        <p class="d5-issue">N° 01</p>
-        <h3 class="d5-name">
-          Sherle<em>Khomes</em>
-        </h3>
-        <div class="d5-rule"></div>
-        <p class="d5-lede">
-          C'est l'analyste qu'on appelle quand le ticket Jira refuse
-          de parler. Il regarde, il recoupe, il livre la vérité —
-          dans un rapport prêt à être lu par un humain pressé.
+    <section class="principles">
+      <article class="principle" data-reveal>
+        <div class="principle-num">01</div>
+        <h3>Single-context strict</h3>
+        <p>
+          L'agent ne harcèle pas l'utilisateur question après question.
+          Toute la clarification se fait <strong>en un seul tour</strong> ;
+          ce qui manque devient une hypothèse documentée dans le
+          rapport.
         </p>
-        <p class="d5-byline">
-          Casting actif · <strong>Pour Claude Code, Copilot &amp; Cursor</strong>
+      </article>
+
+      <article class="principle" data-reveal data-reveal-delay="1">
+        <div class="principle-num">02</div>
+        <h3>Secrets sur le poste</h3>
+        <p>
+          Tokens Jira, GitHub, Artifactory, LLM — tout vit dans
+          <code style="font-family:var(--ff-mono);background:var(--paper-2);border:1px solid var(--rule);padding:1px 6px;border-radius:4px;color:var(--violet);font-size:0.92em">~/.bughound/.env</code>.
+          Aucun proxy, aucun service. <strong>chmod 600.</strong>
         </p>
-        <div class="d5-cta-row">
-          <a href="#" class="d5-cta">Recruter</a>
-          <a href="#" class="d5-cta-ghost">Lire le dossier</a>
-        </div>
-        <span class="d5-page-num">— P.001 —</span>
+      </article>
+
+      <article class="principle" data-reveal data-reveal-delay="2">
+        <div class="principle-num">03</div>
+        <h3>MCP-first</h3>
+        <p>
+          Les agents s'enregistrent comme serveurs MCP dans Claude
+          Code, Copilot et Cursor. Pas d'API maison, pas de chat
+          captif — vous gardez votre IDE, votre LLM, votre flux.
+        </p>
+      </article>
+
+      <article class="principle" data-reveal data-reveal-delay="3">
+        <div class="principle-num">04</div>
+        <h3>Mode <em>best</em> par défaut</h3>
+        <p>
+          BugHound court-circuite ses propres appels LLM et délègue
+          au LLM externe avec un prompt prêt à exécuter. Votre fenêtre
+          de contexte respire ; les modes legacy / monolithique
+          restent disponibles.
+        </p>
+      </article>
+
+      <article class="principle" data-reveal data-reveal-delay="4">
+        <div class="principle-num">05</div>
+        <h3>Drafts groupés</h3>
+        <p>
+          Pour les agents qui interagissent avec une forge (WaliPR),
+          les findings arrivent en <em>drafts « Add to review »</em>.
+          Une seule notification au reviewé, jamais N spam séparés.
+        </p>
+      </article>
+
+      <article class="principle" data-reveal data-reveal-delay="4">
+        <div class="principle-num">06</div>
+        <h3>Distribution GitHub Pages</h3>
+        <p>
+          Le code source des agents reste privé. Seule la wheel et
+          <code style="font-family:var(--ff-mono);background:var(--paper-2);border:1px solid var(--rule);padding:1px 6px;border-radius:4px;color:var(--violet);font-size:0.92em">install.sh</code>
+          sont servis publiquement —
+          <em>curl … | bash</em>, et c'est en place.
+        </p>
+      </article>
+    </section>
+
+    <section class="timeline">
+      <h2 data-reveal>Cycle d'une enquête</h2>
+      <ol class="timeline-list">
+        <li data-reveal data-reveal-delay="1">
+          <h3>Ingestion déterministe</h3>
+          <p>
+            BugHound récupère le ticket Jira, OCR les screenshots,
+            slice les logs, repère les artefacts. Aucun LLM impliqué
+            ici — c'est du Python pur, reproductible.
+          </p>
+        </li>
+        <li data-reveal data-reveal-delay="2">
+          <h3>Élicitation structurée (si besoin)</h3>
+          <p>
+            S'il manque des infos, l'agent regroupe toutes ses
+            questions en <strong>un seul message</strong> via
+            <code style="font-family:var(--ff-mono);background:var(--paper-2);border:1px solid var(--rule);padding:1px 6px;border-radius:4px;color:var(--violet);font-size:0.92em">AskUserQuestion</code>
+            (Claude Code) ou un markdown formaté ailleurs. Si tout est
+            clair, on enchaîne sans interrompre.
+          </p>
+        </li>
+        <li data-reveal data-reveal-delay="3">
+          <h3>Diagnostic dans votre LLM</h3>
+          <p>
+            Le prompt prêt-à-exécuter passe la main à votre LLM
+            externe (Claude, GPT, Copilot…). C'est lui qui produit le
+            raisonnement — BugHound a juste préparé le terrain
+            proprement.
+          </p>
+        </li>
+        <li data-reveal data-reveal-delay="4">
+          <h3>Rapport actionnable</h3>
+          <p>
+            Cause racine (FR + EN ≤ 80 mots pour le PO), reproduction
+            étape par étape, fix proposé avec niveau de confiance,
+            zones à risque de régression. Pas de jargon inutile, pas
+            de paragraphes de remplissage.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="atelier-hero" style="padding-top:0">
+      <div data-reveal>
+        <a class="btn btn-primary" href="./#galerie">
+          Voir les agents <span class="arrow">→</span>
+        </a>
+        <a class="btn btn-ghost" style="margin-left:8px" href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">
+          Code source GitHub
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M50 22 Q40 22 40 32 Q40 42 50 42"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="52" cy="32" r="3" fill="#7C3AED"/>
+        </svg>
+        <p class="footer-name">slama<em style="background:var(--gradient-text);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;font-weight:500">consulting</em></p>
+        <p class="footer-tagline">
+          IA &amp; Développement. Construction d'agents MCP de niveau
+          production, depuis Sartrouville.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Agents</h4>
+        <ul>
+          <li><a href="agents/sherlekhomes/">SherleKhomes</a></li>
+          <li><a href="agents/walipr/">WaliPR</a></li>
+          <li><a href="./#galerie">Voir la galerie</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Maison</h4>
+        <ul>
+          <li><a href="compare.html">L'atelier · méthode</a></li>
+          <li><a href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a href="mailto:slama.walid1985@gmail.com">slama.walid1985@gmail.com</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <footer class="compare-footer">
-    <p>
-      Une fois que tu as choisi ton design préféré, dis-le moi
-      (par exemple <code>"je prends le 3"</code>) et je l'applique
-      sur la galerie + la page de SherleKhomes.
-    </p>
-    <p style="margin-top:24px">
-      <a href="index.html">← Retour à la galerie actuelle</a>
-    </p>
+    <div class="footer-bottom">
+      <span>© Slama Consulting · 2026 · v1.0.8</span>
+      <span>Built with care · Sartrouville</span>
+    </div>
   </footer>
 
+  <script src="assets/app.js" defer></script>
 </body>
 </html>

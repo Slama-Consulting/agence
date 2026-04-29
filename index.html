@@ -3,76 +3,143 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>L'Agence — Une équipe d'agents IA au service de vos enquêtes</title>
-  <meta name="description" content="Galerie d'agents MCP spécialisés. Installation en une commande. Compatible Claude Code, Copilot et Cursor." />
+  <title>Slama Consulting · L'Agence — Une équipe d'agents IA au service de vos enquêtes</title>
+  <meta name="description" content="Slama Consulting · IA & Développement. Galerie d'agents MCP spécialisés. Installation en une commande. Compatible Claude Code, Copilot et Cursor." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 </head>
-<body class="theme-noir-or">
-  <div class="grain" aria-hidden="true"></div>
-  <div class="seal" aria-hidden="true">🕵</div>
+<body>
+  <!-- Cursor custom (desktop only via CSS @media) -->
+  <div class="cursor-halo" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <a class="brand" href="./">
-      <span class="brand-mark">🕵</span>
-      <span class="brand-name">L'<em>Agence</em></span>
+  <!-- SVG defs partagés (gradients pour les schémas) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#1E2A78"/>
+        <stop offset="50%" stop-color="#2563EB"/>
+        <stop offset="100%" stop-color="#7C3AED"/>
+      </linearGradient>
+      <linearGradient id="hero-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#1E2A78"/>
+        <stop offset="100%" stop-color="#7C3AED"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="topbar" data-reveal>
+    <a class="brand" href="./" aria-label="Slama Consulting · accueil">
+      <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="draw" data-d="1" d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <path class="draw" data-d="2" d="M50 22 Q40 22 40 32 Q40 42 50 42"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <circle class="draw" data-d="3" cx="52" cy="32" r="3" fill="none" stroke="#7C3AED" stroke-width="2"/>
+      </svg>
+      <span class="brand-name">slama<em>consulting</em></span>
+      <span class="brand-tagline">IA &amp; Dév</span>
     </a>
     <nav class="nav">
-      <a href="#galerie">Galerie</a>
-      <a href="#comment">Comment ça marche</a>
-      <a href="https://github.com/Slama-Consulting/BugHound" class="nav-muted" rel="noopener" target="_blank">GitHub</a>
+      <a href="#galerie">Agents</a>
+      <a href="#comment">Méthode</a>
+      <a href="compare.html">L'atelier</a>
+      <a class="nav-cta" href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub →</a>
     </nav>
   </header>
 
   <main>
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
     <section class="hero">
-      <p class="hero-eyebrow">— Dossier d'introduction —</p>
-      <h1 class="hero-title">
-        Une équipe d'agents IA<br />
-        au service de vos <em>enquêtes</em>.
-      </h1>
-      <div class="hero-rule" aria-hidden="true"></div>
-      <p class="hero-sub">
-        Chaque agent a une mission. Recrutez celui qu'il vous faut.<br />
-        Installation en une seule commande.
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#galerie">Voir la galerie ↓</a>
-        <a class="btn btn-ghost" href="#comment">Comment ça marche</a>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="hero-eyebrow" data-reveal>
+            <span class="dot" aria-hidden="true"></span>
+            Agence d'IA · Sartrouville · 2026
+          </p>
+          <h1 class="hero-title" data-reveal data-reveal-delay="1">
+            Une équipe d'agents IA<br/>
+            au service de vos <em>enquêtes</em>.
+          </h1>
+          <p class="hero-sub" data-reveal data-reveal-delay="2">
+            Chaque agent a une mission. <strong>Recrutez celui qu'il vous faut.</strong>
+            Installation en une seule commande, compatible Claude Code,
+            Copilot et Cursor. Vos secrets restent sur votre poste.
+          </p>
+          <div class="hero-cta" data-reveal data-reveal-delay="3">
+            <a class="btn btn-primary" href="#galerie">
+              Voir la galerie <span class="arrow">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#comment">
+              Comment ça marche
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual" data-reveal data-reveal-delay="2" aria-hidden="true">
+          <div class="schema-bg"></div>
+
+          <!-- Lignes circuit qui flottent vers le centre -->
+          <svg class="schema-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 20 L 35 20 L 50 35"/>
+            <path d="M100 25 L 70 25 L 55 40"/>
+            <path d="M0 75 L 30 75 L 45 60"/>
+            <path d="M100 80 L 65 80 L 50 65"/>
+          </svg>
+
+          <div class="schema-card c1">
+            <span class="pulse"></span>JIRA &nbsp;<strong style="color:var(--ink)">PROJ-42</strong>
+          </div>
+          <div class="schema-card c2">
+            <span class="pulse" style="background:var(--blue);box-shadow:0 0 0 0 rgba(37,99,235,0.5);animation-name:card-pulse"></span>
+            review_mr
+          </div>
+          <div class="schema-card c3">
+            <span class="pulse" style="background:var(--navy);"></span>
+            patch.diff
+          </div>
+
+          <div class="schema-core" role="img" aria-label="Agent"></div>
+        </div>
       </div>
     </section>
 
-    <section id="galerie" class="gallery">
-      <header class="section-head">
-        <p class="section-eyebrow">— Casting actif —</p>
-        <h2 class="section-title">La galerie d'agents</h2>
-        <div class="section-rule" aria-hidden="true"></div>
+    <!-- ============================================================
+         GALERIE
+         ============================================================ -->
+    <section id="galerie" class="section">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="section-num">N° 01 — Casting actif</p>
+          <h2 class="section-title">La galerie d'<em>agents</em></h2>
+        </div>
+        <p class="section-lede">
+          Quatre agents à votre disposition — deux opérationnels, deux
+          en préparation. Tous parlent le protocole MCP, tous savent se
+          taire quand il le faut.
+        </p>
       </header>
 
       <div class="cards">
-        <!-- Carte SherleKhomes -->
-        <article class="card card-active">
+        <!-- ── SHERLEKHOMES ── -->
+        <article class="card card-active" data-reveal data-reveal-delay="1">
           <div class="card-badge">Agent 01</div>
 
           <div class="avatar" data-agent="sherlekhomes">
-            <!-- Halo doux qui pulse -->
-            <span class="avatar-halo-pulse" aria-hidden="true"></span>
-            <!-- Anneau doré rotatif derrière la photo -->
-            <span class="avatar-halo-ring" aria-hidden="true"></span>
-            <!-- Médaillon photo (Design 01 : Noir & Or) -->
-            <div class="avatar-photo" role="img" aria-label="SherleKhomes — analyste de tickets"></div>
-            <!-- Particules dorées flottantes -->
+            <span class="avatar-pulse" aria-hidden="true"></span>
+            <span class="avatar-ring" aria-hidden="true"></span>
+            <div class="avatar-photo" role="img" aria-label="SherleKhomes"></div>
             <div class="avatar-particles" aria-hidden="true">
-              <span class="p1"></span>
-              <span class="p2"></span>
-              <span class="p3"></span>
-              <span class="p4"></span>
+              <span class="p1">{ }</span>
+              <span class="p2">→</span>
+              <span class="p3">/*</span>
+              <span class="p4">;;</span>
             </div>
-            <!-- Conteneur Lottie (vide tant que .json absent) -->
-            <div class="avatar-lottie" data-lottie-src="assets/sherlekhomes.json" hidden></div>
           </div>
 
           <h3 class="card-name">SherleKhomes</h3>
@@ -82,60 +149,54 @@
             description, logs, vidéos et code. Restitue un rapport
             d'enquête complet.
           </p>
-
           <ul class="card-skills">
             <li>Cause racine</li>
             <li>Reproduction</li>
             <li>Fix proposé</li>
           </ul>
-
           <a href="agents/sherlekhomes/" class="btn btn-primary card-cta">
-            Recruter cet agent →
+            Recruter <span class="arrow">→</span>
           </a>
         </article>
 
-        <!-- Carte WaliPR -->
-        <article class="card card-active">
+        <!-- ── WALIPR ── -->
+        <article class="card card-active" data-reveal data-reveal-delay="2">
           <div class="card-badge">Agent 02</div>
 
           <div class="avatar" data-agent="walipr">
-            <span class="avatar-halo-pulse" aria-hidden="true"></span>
-            <span class="avatar-halo-ring" aria-hidden="true"></span>
-            <div class="avatar-photo" role="img" aria-label="WaliPR — inspecteur de pull requests"></div>
+            <span class="avatar-pulse" aria-hidden="true"></span>
+            <span class="avatar-ring" aria-hidden="true"></span>
+            <div class="avatar-photo" role="img" aria-label="WaliPR"></div>
             <div class="avatar-particles" aria-hidden="true">
-              <span class="p1"></span>
-              <span class="p2"></span>
-              <span class="p3"></span>
-              <span class="p4"></span>
+              <span class="p1">@</span>
+              <span class="p2">+</span>
+              <span class="p3">−</span>
+              <span class="p4">⌥</span>
             </div>
-            <div class="avatar-lottie" data-lottie-src="assets/walipr.json" hidden></div>
           </div>
 
           <h3 class="card-name">WaliPR</h3>
           <p class="card-role">Inspecteur de pull requests</p>
           <p class="card-desc">
             Relit vos PR/MR Kotlin, Python, TypeScript et Java sur
-            GitLab, GitHub et Bitbucket. En mode agentique, charge le
-            contexte fichier-par-fichier et pose ses remarques en
-            <strong>drafts</strong> regroupés (1 seule notification).
+            GitLab, GitHub et Bitbucket. Pose ses remarques en
+            <strong>drafts groupés</strong> — une seule notification.
           </p>
-
           <ul class="card-skills">
-            <li>Mode agentique multi-tools</li>
+            <li>Mode agentique</li>
             <li>Drafts &laquo; Add to review &raquo;</li>
-            <li>Multi-forge · 4 langages</li>
+            <li>4 langages · 4 forges</li>
           </ul>
-
           <a href="agents/walipr/" class="btn btn-primary card-cta">
-            Recruter cet agent →
+            Recruter <span class="arrow">→</span>
           </a>
         </article>
 
-        <!-- Carte fantôme : WaliScribe (à venir) -->
-        <article class="card card-ghost" aria-disabled="true">
+        <!-- ── WALISCRIBE (à venir) ── -->
+        <article class="card card-ghost" aria-disabled="true" data-reveal data-reveal-delay="3">
           <div class="card-badge">Bientôt</div>
           <div class="avatar avatar-ghost" data-agent="waliscribe">
-            <div class="avatar-photo" role="img" aria-label="WaliScribe — créateur de tickets Jira"></div>
+            <div class="avatar-photo" role="img" aria-label="WaliScribe"></div>
           </div>
           <h3 class="card-name">WaliScribe</h3>
           <p class="card-role">Greffier de l'agence</p>
@@ -147,11 +208,11 @@
           <span class="card-soon">Stay tuned</span>
         </article>
 
-        <!-- Carte fantôme : WalidEx (à venir) -->
-        <article class="card card-ghost" aria-disabled="true">
+        <!-- ── WALIDEX (à venir) ── -->
+        <article class="card card-ghost" aria-disabled="true" data-reveal data-reveal-delay="4">
           <div class="card-badge">Bientôt</div>
           <div class="avatar avatar-ghost" data-agent="walidex">
-            <div class="avatar-photo" role="img" aria-label="WalidEx — rapport croisé sur les tickets"></div>
+            <div class="avatar-photo" role="img" aria-label="WalidEx"></div>
           </div>
           <h3 class="card-name">WalidEx</h3>
           <p class="card-role">Archiviste enquêteur</p>
@@ -165,15 +226,24 @@
       </div>
     </section>
 
-    <section id="comment" class="howto">
-      <header class="section-head">
-        <p class="section-eyebrow">— Procédure —</p>
-        <h2 class="section-title">Comment ça marche</h2>
-        <div class="section-rule" aria-hidden="true"></div>
+    <!-- ============================================================
+         COMMENT ÇA MARCHE
+         ============================================================ -->
+    <section id="comment" class="section">
+      <header class="section-head" data-reveal>
+        <div>
+          <p class="section-num">N° 02 — Procédure</p>
+          <h2 class="section-title">Trois étapes, <em>aucune friction</em>.</h2>
+        </div>
+        <p class="section-lede">
+          De la galerie à votre IDE en moins de cinq minutes. Aucune
+          donnée ne quitte votre poste — les secrets restent dans
+          <code style="font-family:var(--ff-mono);background:var(--paper-2);padding:1px 6px;border-radius:4px;border:1px solid var(--rule);color:var(--violet);font-size:0.92em">~/.bughound/.env</code>.
+        </p>
       </header>
 
       <ol class="steps">
-        <li class="step">
+        <li class="step" data-reveal data-reveal-delay="1">
           <div class="step-num">01</div>
           <h3 class="step-title">Choisir un agent</h3>
           <p class="step-desc">
@@ -181,20 +251,21 @@
             ouvrir le dossier de l'agent.
           </p>
         </li>
-        <li class="step">
+        <li class="step" data-reveal data-reveal-delay="2">
           <div class="step-num">02</div>
           <h3 class="step-title">Installer</h3>
           <p class="step-desc">
-            Une seule commande shell. La distribution est servie
-            depuis GitHub Pages, le code source reste privé.
+            Une seule commande shell. Distribution servie depuis
+            GitHub Pages, code source privé.
           </p>
+          <span class="step-code">curl … | bash</span>
         </li>
-        <li class="step">
+        <li class="step" data-reveal data-reveal-delay="3">
           <div class="step-num">03</div>
           <h3 class="step-title">Configurer</h3>
           <p class="step-desc">
-            Ajoutez l'agent à votre client MCP : Claude Code,
-            Copilot ou Cursor. Et l'enquête peut commencer.
+            L'install enregistre l'agent dans Claude Code, Copilot
+            et Cursor. Et l'enquête peut commencer.
           </p>
         </li>
       </ol>
@@ -202,14 +273,45 @@
   </main>
 
   <footer class="footer">
-    <div class="footer-rule" aria-hidden="true"></div>
-    <p class="footer-line">
-      © Slama Consulting · Repo privé GitHub · v1.0.8
-    </p>
-    <p class="footer-line footer-muted">
-      Built with care · Sartrouville · 2026 ·
-      <a href="mailto:slama.walid1985@gmail.com" class="link-gold">slama.walid1985@gmail.com</a>
-    </p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M50 22 Q40 22 40 32 Q40 42 50 42"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="52" cy="32" r="3" fill="#7C3AED"/>
+        </svg>
+        <p class="footer-name">slama<em style="background:var(--gradient-text);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;font-weight:500">consulting</em></p>
+        <p class="footer-tagline">
+          IA &amp; Développement. Construction d'agents MCP de niveau
+          production, depuis Sartrouville.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Agents</h4>
+        <ul>
+          <li><a href="agents/sherlekhomes/">SherleKhomes</a></li>
+          <li><a href="agents/walipr/">WaliPR</a></li>
+          <li><a href="#galerie">Voir la galerie</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Maison</h4>
+        <ul>
+          <li><a href="compare.html">L'atelier · méthode</a></li>
+          <li><a href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a href="mailto:slama.walid1985@gmail.com">slama.walid1985@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© Slama Consulting · 2026 · v1.0.8</span>
+      <span>Built with care · Sartrouville</span>
+    </div>
   </footer>
 
   <script src="assets/app.js" defer></script>

@@ -346,7 +346,77 @@
   }
 
   // ---------------------------------------------------------
-  // 6. Boot
+  // 6. Custom cursor (desktop only)
+  // ---------------------------------------------------------
+  function bindCursor() {
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+    var dot = document.querySelector(".cursor-dot");
+    var halo = document.querySelector(".cursor-halo");
+    if (!dot || !halo) return;
+
+    var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    var hx = tx, hy = ty;
+    var dx = tx, dy = ty;
+
+    document.addEventListener("mousemove", function (e) {
+      tx = e.clientX; ty = e.clientY;
+    });
+
+    function tick() {
+      // dot follows tightly
+      dx += (tx - dx) * 0.6;
+      dy += (ty - dy) * 0.6;
+      // halo trails with ease
+      hx += (tx - hx) * 0.15;
+      hy += (ty - hy) * 0.15;
+      dot.style.transform = "translate(" + dx + "px," + dy + "px) translate(-50%,-50%)";
+      halo.style.transform = "translate(" + hx + "px," + hy + "px) translate(-50%,-50%)";
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    var hoverables = "a, button, .card, input, label, .tab, .radio, .step, .principle, .capabilities li";
+    document.querySelectorAll(hoverables).forEach(function (el) {
+      el.addEventListener("mouseenter", function () { document.body.classList.add("cursor-magnet"); });
+      el.addEventListener("mouseleave", function () { document.body.classList.remove("cursor-magnet"); });
+    });
+  }
+
+  // ---------------------------------------------------------
+  // 7. Reveal-on-scroll via IntersectionObserver
+  // ---------------------------------------------------------
+  function bindReveal() {
+    var els = document.querySelectorAll("[data-reveal]");
+    if (!els.length) return;
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  // ---------------------------------------------------------
+  // 8. Logo SVG path drawing — set stroke-dasharray to actual length
+  // ---------------------------------------------------------
+  function bindLogoDraw() {
+    document.querySelectorAll(".brand-logo .draw").forEach(function (el) {
+      try {
+        var len = (typeof el.getTotalLength === "function") ? el.getTotalLength() : 200;
+        el.style.setProperty("--len", len);
+      } catch (e) { /* ignore */ }
+    });
+  }
+
+  // ---------------------------------------------------------
+  // 9. Boot
   // ---------------------------------------------------------
   document.addEventListener("DOMContentLoaded", function () {
     bindCopyButtons();
@@ -356,5 +426,8 @@
     bindTabsBy("data-forge-tab", "data-forge-panel");
     bindConfigGenerator();
     tryUpgradeAvatarsToLottie();
+    bindCursor();
+    bindReveal();
+    bindLogoDraw();
   });
 })();

@@ -3,57 +3,73 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SherleKhomes · L'Agence</title>
+  <title>SherleKhomes · Slama Consulting</title>
   <meta name="description" content="Dossier de l'agent SherleKhomes — analyste de tickets Jira. Installation, capacités, configuration MCP." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../assets/styles.css" />
   <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
 </head>
-<body class="theme-noir-or page-agent">
-  <div class="grain" aria-hidden="true"></div>
-  <div class="seal" aria-hidden="true">🕵</div>
+<body class="page-agent">
+  <div class="cursor-halo" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#1E2A78"/>
+        <stop offset="50%" stop-color="#2563EB"/>
+        <stop offset="100%" stop-color="#7C3AED"/>
+      </linearGradient>
+    </defs>
+  </svg>
 
   <header class="topbar">
-    <a class="brand" href="../../">
-      <span class="brand-mark">🕵</span>
-      <span class="brand-name">L'<em>Agence</em></span>
+    <a class="brand" href="../../" aria-label="Slama Consulting · accueil">
+      <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="draw" data-d="1" d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <path class="draw" data-d="2" d="M50 22 Q40 22 40 32 Q40 42 50 42"
+              fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+        <circle class="draw" data-d="3" cx="52" cy="32" r="3" fill="none" stroke="#7C3AED" stroke-width="2"/>
+      </svg>
+      <span class="brand-name">slama<em>consulting</em></span>
+      <span class="brand-tagline">IA &amp; Dév</span>
     </a>
     <nav class="nav">
-      <a href="../../#galerie">Galerie</a>
-      <a href="../../#comment">Comment ça marche</a>
-      <a href="https://github.com/Slama-Consulting/BugHound" class="nav-muted" rel="noopener" target="_blank">GitHub</a>
+      <a href="../../#galerie">Agents</a>
+      <a href="../../#comment">Méthode</a>
+      <a href="../../compare.html">L'atelier</a>
+      <a class="nav-cta" href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub →</a>
     </nav>
   </header>
 
   <main class="agent-page">
     <a class="back-link" href="../../#galerie">← Retour à la galerie</a>
 
-    <!-- Bandeau "terminal de surveillance" -->
-    <div class="ticker">
-      <span class="ticker-line">&gt; tracking_target: <strong>SHERLEKHOMES</strong></span>
-      <span class="ticker-line">&gt; status: <strong class="ticker-ok">ACTIVE</strong></span>
-      <span class="ticker-line">&gt; last_seen: <strong>2026-04-28</strong></span>
+    <div class="ticker" data-reveal>
+      <span>&gt; tracking_target: <strong>SHERLEKHOMES</strong></span>
+      <span>&gt; status: <strong class="ticker-ok">ACTIVE</strong></span>
+      <span>&gt; last_seen: <strong>2026-04-28</strong></span>
     </div>
 
     <section class="agent-hero">
-      <div class="agent-hero-avatar">
+      <div data-reveal>
         <div class="avatar avatar-large" data-agent="sherlekhomes">
-          <span class="avatar-halo-pulse" aria-hidden="true"></span>
-          <span class="avatar-halo-ring" aria-hidden="true"></span>
-          <div class="avatar-photo" role="img" aria-label="SherleKhomes — analyste de tickets"></div>
+          <span class="avatar-pulse" aria-hidden="true"></span>
+          <span class="avatar-ring" aria-hidden="true"></span>
+          <div class="avatar-photo" role="img" aria-label="SherleKhomes"></div>
           <div class="avatar-particles" aria-hidden="true">
-            <span class="p1"></span>
-            <span class="p2"></span>
-            <span class="p3"></span>
-            <span class="p4"></span>
+            <span class="p1">{ }</span>
+            <span class="p2">→</span>
+            <span class="p3">/*</span>
+            <span class="p4">;;</span>
           </div>
-          <div class="avatar-lottie" data-lottie-src="../../assets/sherlekhomes.json" hidden></div>
         </div>
       </div>
 
-      <div class="agent-hero-text">
+      <div data-reveal data-reveal-delay="1">
         <p class="agent-eyebrow">— Agent 01 —</p>
         <h1 class="agent-name">SherleKhomes</h1>
         <p class="agent-role">Analyste de tickets Jira</p>
@@ -71,7 +87,7 @@
       </div>
     </section>
 
-    <section class="agent-block">
+    <section class="agent-block" data-reveal>
       <h2 class="agent-h2">Mission</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
       <p class="agent-p">
@@ -83,7 +99,7 @@
       </p>
     </section>
 
-    <section class="agent-block">
+    <section class="agent-block" data-reveal>
       <h2 class="agent-h2">Capacités</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
       <ul class="capabilities">
@@ -102,7 +118,7 @@
       </ul>
     </section>
 
-    <section class="agent-block" id="config">
+    <section class="agent-block" id="config" data-reveal>
       <h2 class="agent-h2">Configurer votre agent</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
 
@@ -169,7 +185,7 @@
         </div>
 
         <div class="info-box">
-          <span class="info-icon" aria-hidden="true">ⓘ</span>
+          <span class="info-icon" aria-hidden="true">i</span>
           <p class="info-text">
             Vos <strong>secrets</strong> (token, mot de passe) ne sont
             <strong>jamais</strong> demandés par cette page. Ils resteront
@@ -179,7 +195,7 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="generate-btn">
-            Générer ma commande →
+            Générer ma commande <span class="arrow">→</span>
           </button>
           <button type="reset" class="btn btn-ghost" id="reset-btn">
             Réinitialiser
@@ -188,15 +204,12 @@
       </form>
 
       <div class="config-output" id="config-output" hidden>
-        <div class="output-rule" aria-hidden="true"></div>
-
         <div class="tabs tabs-config">
           <button class="tab tab-active" data-config-tab="install">① Installer</button>
           <button class="tab" data-config-tab="yaml">② config.yaml</button>
           <button class="tab" data-config-tab="mcp">③ Client MCP</button>
         </div>
 
-        <!-- Onglet 1 : commande shell enrichie -->
         <div class="tab-panel" data-config-panel="install">
           <p class="agent-p">
             Une seule commande à coller dans votre terminal. Elle
@@ -204,33 +217,33 @@
             avec vos paramètres.
           </p>
           <div class="code-card">
+            <span class="dots" aria-hidden="true"><i></i></span>
+            <button class="copy-btn" data-copy-target="install-cmd">Copier</button>
             <pre><code id="install-cmd"></code></pre>
-            <button class="copy-btn" data-copy-target="install-cmd" aria-label="Copier la commande">📋 Copier</button>
           </div>
           <p class="agent-p agent-muted">
             Installation manuelle ?
-            <a href="#" class="link-gold">📥 Télécharger la wheel v1.8.4</a>
+            <a href="#" class="link-gold">Télécharger la wheel v1.8.4 →</a>
           </p>
         </div>
 
-        <!-- Onglet 2 : config.yaml généré -->
         <div class="tab-panel" data-config-panel="yaml" hidden>
           <p class="agent-p">
             Si vous préférez gérer la config à la main, déposez
             ce fichier dans <code>~/.bughound/config.yaml</code>.
           </p>
           <div class="code-card">
+            <span class="dots" aria-hidden="true"><i></i></span>
+            <button class="copy-btn" data-copy-target="config-yaml">Copier</button>
             <pre><code id="config-yaml"></code></pre>
-            <button class="copy-btn" data-copy-target="config-yaml" aria-label="Copier la configuration">📋 Copier</button>
           </div>
           <div class="form-actions">
             <button type="button" class="btn btn-ghost" id="download-yaml-btn">
-              📥 Télécharger config.yaml
+              Télécharger config.yaml
             </button>
           </div>
         </div>
 
-        <!-- Onglet 3 : config client MCP -->
         <div class="tab-panel" data-config-panel="mcp" hidden>
           <p class="agent-p">
             <strong>Bonne nouvelle :</strong> <code>install.sh</code>
@@ -240,8 +253,9 @@
             override) :
           </p>
           <div class="code-card">
+            <span class="dots" aria-hidden="true"><i></i></span>
+            <button class="copy-btn" data-copy-target="cfg-mcp-install">Copier</button>
             <pre><code id="cfg-mcp-install">bughound mcp-install</code></pre>
-            <button class="copy-btn" data-copy-target="cfg-mcp-install" aria-label="Copier la commande">📋 Copier</button>
           </div>
           <p class="agent-p agent-muted">
             Options utiles :
@@ -272,6 +286,8 @@
               <code>mcpServers</code>).
             </p>
             <div class="code-card">
+              <span class="dots" aria-hidden="true"><i></i></span>
+              <button class="copy-btn" data-copy-target="cfg-claude">Copier</button>
               <pre><code id="cfg-claude">{
   "mcpServers": {
     "sherlekhomes": {
@@ -280,7 +296,6 @@
     }
   }
 }</code></pre>
-              <button class="copy-btn" data-copy-target="cfg-claude" aria-label="Copier la configuration">📋 Copier</button>
             </div>
           </div>
 
@@ -291,6 +306,8 @@
               Relancer VS Code après modification.
             </p>
             <div class="code-card">
+              <span class="dots" aria-hidden="true"><i></i></span>
+              <button class="copy-btn" data-copy-target="cfg-copilot">Copier</button>
               <pre><code id="cfg-copilot">{
   "servers": {
     "sherlekhomes": {
@@ -300,7 +317,6 @@
     }
   }
 }</code></pre>
-              <button class="copy-btn" data-copy-target="cfg-copilot" aria-label="Copier la configuration">📋 Copier</button>
             </div>
           </div>
 
@@ -310,6 +326,8 @@
               <code>mcpServers</code>).
             </p>
             <div class="code-card">
+              <span class="dots" aria-hidden="true"><i></i></span>
+              <button class="copy-btn" data-copy-target="cfg-cursor">Copier</button>
               <pre><code id="cfg-cursor">{
   "mcpServers": {
     "sherlekhomes": {
@@ -318,7 +336,6 @@
     }
   }
 }</code></pre>
-              <button class="copy-btn" data-copy-target="cfg-cursor" aria-label="Copier la configuration">📋 Copier</button>
             </div>
           </div>
         </div>
@@ -333,6 +350,8 @@
             obligatoires tant que la valeur n'est pas remplie.
           </p>
           <div class="code-card">
+            <span class="dots" aria-hidden="true"><i></i></span>
+            <button class="copy-btn" data-copy-target="env-template">Copier</button>
             <pre><code id="env-template"># Token Jira (si JIRA_MODE=api). Generation : Profil Atlassian
 # → Security → API tokens. Pour Server/DC en mode browser, pas
 # besoin : SherleKhomes utilise votre session Chrome.
@@ -346,7 +365,6 @@
 # Clé du LLM (analyse). Anthropic, OpenAI, ou compatible.
 # LLM_API_KEY=
 </code></pre>
-            <button class="copy-btn" data-copy-target="env-template" aria-label="Copier le template">📋 Copier</button>
           </div>
           <p class="agent-p agent-muted">
             Le fichier appartient uniquement à votre utilisateur
@@ -374,7 +392,7 @@
         </div>
 
         <div class="next-steps">
-          <h3 class="next-title">⚠️ Piège shell — variables côté pipe</h3>
+          <h3 class="next-title">Piège shell — variables côté pipe</h3>
           <p class="agent-p">
             Si vous tapez la commande à la main, <strong>les variables
             <code>JIRA_URL</code> / <code>JIRA_MODE</code> doivent être
@@ -384,6 +402,8 @@
             <code>~/.bughound/.env</code> n'est pas pré-rempli.
           </p>
           <div class="code-card">
+            <span class="dots" aria-hidden="true"><i></i></span>
+            <button class="copy-btn" data-copy-target="env-shell-trap">Copier</button>
             <pre><code id="env-shell-trap"># ❌ FAUX — variables attachées à curl, perdues après le pipe
 JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser' \
   curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash
@@ -399,7 +419,6 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh \
 export JIRA_URL='https://jira.maboite.com' JIRA_MODE='browser'
 export BUGHOUND_AGENTS=sherlekhomes
 curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></pre>
-            <button class="copy-btn" data-copy-target="env-shell-trap" aria-label="Copier l'astuce">📋 Copier</button>
           </div>
           <p class="agent-p agent-muted">
             Depuis la version 1.0.1 d'<code>install.sh</code>, si vous
@@ -411,7 +430,7 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
       </div>
     </section>
 
-    <section class="agent-block">
+    <section class="agent-block" data-reveal>
       <h2 class="agent-h2">Installation rapide (sans configuration)</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
       <p class="agent-p">
@@ -420,9 +439,10 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
         <code>bughound setup</code> pour configurer votre Jira après.
       </p>
       <div class="code-card">
+        <span class="dots" aria-hidden="true"><i></i></span>
+        <button class="copy-btn" data-copy-target="install-bare">Copier</button>
         <pre><code id="install-bare">curl -fsSL https://slama-consulting.github.io/agence/install.sh \
   | BUGHOUND_AGENTS=sherlekhomes bash</code></pre>
-        <button class="copy-btn" data-copy-target="install-bare" aria-label="Copier la commande">📋 Copier</button>
       </div>
       <p class="agent-p agent-muted">
         <code>BUGHOUND_AGENTS=sherlekhomes</code> indique à
@@ -432,10 +452,9 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
       </p>
     </section>
 
-    <section class="agent-block">
+    <section class="agent-block" data-reveal>
       <h2 class="agent-h2">Dossier de l'agent</h2>
       <div class="agent-rule small" aria-hidden="true"></div>
-
       <dl class="meta-grid">
         <div class="meta-row">
           <dt>Version actuelle</dt>
@@ -458,7 +477,6 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
           <dd><a href="mailto:slama.walid1985@gmail.com" class="link-gold">slama.walid1985@gmail.com</a></dd>
         </div>
       </dl>
-
       <p class="agent-p">
         <a href="#" class="link-gold">Voir le changelog →</a>
       </p>
@@ -466,14 +484,42 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
   </main>
 
   <footer class="footer">
-    <div class="footer-rule" aria-hidden="true"></div>
-    <p class="footer-line">
-      © Slama Consulting · Repo privé GitHub · v1.0.8
-    </p>
-    <p class="footer-line footer-muted">
-      Built with care · Sartrouville · 2026 ·
-      <a href="mailto:slama.walid1985@gmail.com" class="link-gold">slama.walid1985@gmail.com</a>
-    </p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="brand-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M50 22 Q40 22 40 32 Q40 42 50 42"
+                fill="none" stroke="url(#brand-grad)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="52" cy="32" r="3" fill="#7C3AED"/>
+        </svg>
+        <p class="footer-name">slama<em style="background:var(--gradient-text);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;font-weight:500">consulting</em></p>
+        <p class="footer-tagline">
+          IA &amp; Développement. Construction d'agents MCP de niveau
+          production, depuis Sartrouville.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Agents</h4>
+        <ul>
+          <li><a href="../sherlekhomes/">SherleKhomes</a></li>
+          <li><a href="../walipr/">WaliPR</a></li>
+          <li><a href="../../#galerie">Voir la galerie</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Maison</h4>
+        <ul>
+          <li><a href="../../compare.html">L'atelier · méthode</a></li>
+          <li><a href="https://github.com/Slama-Consulting/BugHound" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a href="mailto:slama.walid1985@gmail.com">slama.walid1985@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Slama Consulting · 2026 · v1.0.8</span>
+      <span>Built with care · Sartrouville</span>
+    </div>
   </footer>
 
   <script src="../../assets/app.js" defer></script>

@@ -1,12 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="#F2C97A"/>
-      <stop offset="100%" stop-color="#C7943B"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#1E2A78"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="12" fill="#0B0D10"/>
-  <circle cx="26" cy="28" r="14" fill="none" stroke="url(#g)" stroke-width="3"/>
-  <line x1="36" y1="38" x2="48" y2="50" stroke="url(#g)" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="26" cy="28" r="6" fill="url(#g)" opacity="0.25"/>
+  <rect width="64" height="64" rx="14" fill="#FAFAF7"/>
+  <!-- S -->
+  <path d="M30 14 Q14 14 14 22 Q14 30 22 32 Q30 34 30 42 Q30 50 14 50"
+        fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+  <!-- C / circuit dot -->
+  <path d="M50 22 Q40 22 40 32 Q40 42 50 42"
+        fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="52" cy="32" r="3" fill="#7C3AED"/>
 </svg>
