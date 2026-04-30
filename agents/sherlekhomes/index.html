@@ -108,6 +108,10 @@
           <span class="cap-desc">Diagnostic complet d'un ticket Jira. Mode <code>best</code> par défaut : délègue à votre LLM externe avec un prompt prêt à exécuter (préserve la fenêtre de contexte du chat).</span>
         </li>
         <li>
+          <span class="cap-name">ask_clarifications <em>(nouveau v1.13.0)</em></span>
+          <span class="cap-desc">Pose 1 à 4 questions à l'utilisateur via un <strong>formulaire natif inline</strong> dans le chat (capability MCP <code>elicitation</code>) — zéro tour LLM consommé sur VS Code Copilot, Cursor, Claude Code v2.1.76+, Android Studio + Copilot v1.5.57+. Fallback markdown automatique sur les autres clients.</span>
+        </li>
+        <li>
           <span class="cap-name">mode legacy / monolithique</span>
           <span class="cap-desc">Opt-in via <code>--mode legacy</code> ou <code>--mode monolithic</code> quand vous voulez un rapport markdown généré côté BugHound.</span>
         </li>
@@ -458,11 +462,11 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
       <dl class="meta-grid">
         <div class="meta-row">
           <dt>Version actuelle</dt>
-          <dd>1.11.0</dd>
+          <dd>1.13.0</dd>
         </div>
         <div class="meta-row">
           <dt>Dernière mission</dt>
-          <dd>2026-04-28</dd>
+          <dd>2026-04-30</dd>
         </div>
         <div class="meta-row">
           <dt>Python requis</dt>
@@ -517,7 +521,7 @@ curl -fsSL https://slama-consulting.github.io/agence/install.sh | bash</code></p
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© Slama Consulting · 2026 · v1.0.8</span>
+      <span>© Slama Consulting · 2026 · v1.0.9</span>
       <span>Built with care · Sartrouville</span>
     </div>
   </footer>
